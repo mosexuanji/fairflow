@@ -1,0 +1,241 @@
+{
+  "presentation": {
+    "mode": "RECORDED_LOCAL_DEMO",
+    "capturedAt": "2026-10-01T05:27:29.113Z",
+    "description": "Read-only recorded local demonstration. Controlled accounts, LocalCash and mock liquidity. No live public-network state, customer demand, independent review or return claim."
+  },
+  "network": {
+    "chainId": 31337,
+    "scope": "RECORDED_LOCAL_DEMO"
+  },
+  "config": {
+    "bandAtoms": "1000000000000000000000",
+    "firstStageCreditAtoms": "10000000",
+    "creditDecimals": 6,
+    "tokenDecimals": 18,
+    "localCashDecimals": 6,
+    "cashDecimals": 6,
+    "reviewDelaySeconds": 60,
+    "buybackBps": 3000
+  },
+  "projects": [
+    {
+      "id": "1",
+      "name": "FairFlow Evaluation",
+      "policyVersion": 1,
+      "credits": "13500000",
+      "grossIssued": "1175000000000000000000",
+      "totalBurned": "1000000000000000000",
+      "totalSupply": "1174000000000000000000",
+      "buckets": {
+        "bountyReserved": "0",
+        "claimable": "0",
+        "refundable": "0",
+        "operations": "700000",
+        "buyback": "200000"
+      },
+      "rules": [
+        {
+          "version": 1,
+          "role": 0,
+          "credits": "10000000"
+        },
+        {
+          "version": 1,
+          "role": 1,
+          "credits": "3000000"
+        },
+        {
+          "version": 1,
+          "role": 2,
+          "credits": "200000"
+        },
+        {
+          "version": 1,
+          "role": 3,
+          "credits": "500000"
+        }
+      ],
+      "tasks": [
+        {
+          "id": "1",
+          "role": 0,
+          "version": 1,
+          "credits": "10000000",
+          "reward": "0",
+          "expiresAt": 1790913702,
+          "status": "COMPLETED",
+          "estimatedFT": "500000000000000000000"
+        },
+        {
+          "id": "2",
+          "role": 1,
+          "version": 1,
+          "credits": "3000000",
+          "reward": "10000000",
+          "expiresAt": 1790913702,
+          "status": "COMPLETED",
+          "estimatedFT": "150000000000000000000"
+        },
+        {
+          "id": "3",
+          "role": 3,
+          "version": 1,
+          "credits": "500000",
+          "reward": "0",
+          "expiresAt": 1790913702,
+          "status": "COMPLETED",
+          "estimatedFT": "25000000000000000000"
+        },
+        {
+          "id": "4",
+          "role": 2,
+          "version": 1,
+          "credits": "200000",
+          "reward": "0",
+          "expiresAt": 1790913702,
+          "status": "OPEN",
+          "estimatedFT": "10000000000000000000"
+        }
+      ],
+      "contributions": [
+        {
+          "id": "1",
+          "taskId": "1",
+          "actorType": 0,
+          "role": 0,
+          "status": "FINALIZED",
+          "submittedAt": 1790827518,
+          "validatedAt": 1790827530,
+          "finalizedAt": 1790827597,
+          "credits": "10000000",
+          "minted": "1000000000000000000000",
+          "progressBefore": "0",
+          "claimable": "0"
+        },
+        {
+          "id": "2",
+          "taskId": "2",
+          "actorType": 1,
+          "role": 1,
+          "status": "FINALIZED",
+          "submittedAt": 1790827522,
+          "validatedAt": 1790827532,
+          "finalizedAt": 1790827599,
+          "credits": "3000000",
+          "minted": "150000000000000000000",
+          "progressBefore": "10000000",
+          "claimable": "0"
+        },
+        {
+          "id": "3",
+          "taskId": "3",
+          "actorType": 0,
+          "role": 3,
+          "status": "FINALIZED",
+          "submittedAt": 1790827528,
+          "validatedAt": 1790827534,
+          "finalizedAt": 1790827600,
+          "credits": "500000",
+          "minted": "25000000000000000000",
+          "progressBefore": "13000000",
+          "claimable": "0"
+        }
+      ],
+      "orders": [
+        {
+          "id": "1",
+          "price": "1000000",
+          "status": "SETTLED",
+          "deadline": 1790830906
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Isolation Check",
+      "policyVersion": 1,
+      "credits": "0",
+      "grossIssued": "0",
+      "totalBurned": "0",
+      "totalSupply": "0",
+      "buckets": {
+        "bountyReserved": "0",
+        "claimable": "0",
+        "refundable": "0",
+        "operations": "0",
+        "buyback": "0"
+      },
+      "rules": [
+        {
+          "version": 1,
+          "role": 0,
+          "credits": "10000000"
+        },
+        {
+          "version": 1,
+          "role": 1,
+          "credits": "3000000"
+        },
+        {
+          "version": 1,
+          "role": 2,
+          "credits": "200000"
+        },
+        {
+          "version": 1,
+          "role": 3,
+          "credits": "500000"
+        }
+      ],
+      "tasks": [],
+      "contributions": [],
+      "orders": []
+    }
+  ],
+  "evaluations": [
+    {
+      "id": "evaluation-cc3f5ac5ad9469ba",
+      "report": {
+        "sampleCount": 4,
+        "passed": 3,
+        "failed": 1,
+        "exactMatchRateBps": 7500,
+        "formatPassed": 3,
+        "kind": "DETERMINISTIC_EXACT_JSON_AND_FORMAT",
+        "modelAssisted": false
+      }
+    }
+  ],
+  "agentRuns": [
+    {
+      "id": "agent-run-1",
+      "at": "2026-10-01T04:04:57.423Z",
+      "status": "CONFIRMED",
+      "provenance": "LIVE_CODEX_ASSISTED_BRIDGE (fresh model, integration-owner mediated)",
+      "method": "submit"
+    },
+    {
+      "id": "agent-run-2",
+      "at": "2026-10-01T04:04:59.422Z",
+      "status": "CONFIRMED",
+      "provenance": "LIVE_CODEX_ASSISTED_BRIDGE (fresh model, integration-owner mediated)",
+      "method": "order"
+    },
+    {
+      "id": "agent-run-3",
+      "at": "2026-10-01T04:06:17.894Z",
+      "status": "CONFIRMED",
+      "provenance": "LOCAL_SCRIPT_OR_UNVERIFIED_PROPOSAL",
+      "method": "claim"
+    },
+    {
+      "id": "agent-run-4",
+      "at": "2026-10-01T04:09:41.750Z",
+      "status": "CONFIRMED",
+      "provenance": "LOCAL_SCRIPT_OR_UNVERIFIED_PROPOSAL",
+      "method": "accept"
+    }
+  ],
+  "transactions": []
+}

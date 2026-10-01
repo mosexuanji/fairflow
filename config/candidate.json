@@ -1,0 +1,9 @@
+{
+  "version": "local-candidate-1", "status": "PROVISIONAL_NOT_PUBLIC_TERMS",
+  "chainId": 31337, "rpc": "http://127.0.0.1:18545", "port": 18731,
+  "bandAtoms": "1000000000000000000000", "firstStageCreditAtoms": "10000000",
+  "creditDecimals": 6, "tokenDecimals": 18, "localCashDecimals": 6, "cashDecimals": 6,
+  "reviewDelaySeconds": 60, "buybackBps": 3000,
+  "agentPerActionCashAtoms": "1000000", "agentSessionCashAtoms": "5000000",
+  "publicWritesEnabled": false, "newSpendUsd": "0"
+}

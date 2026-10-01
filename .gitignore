@@ -1,0 +1,22 @@
+node_modules/
+.pnpm-store/
+.cache/
+runtime/
+dist/
+release/
+input/
+.env
+*.key
+*.pem
+*.log
+
+# Generated readiness evidence and private public-execution records
+evidence/*
+!evidence/reference-vectors.json
+docs/submission/
+config/sepolia.owner.json
+config/sepolia-execution-*.json
+config/sepolia-deployment.json
+config/sepolia-preflight.json
+config/sepolia-local-validation.json
+.env.*
