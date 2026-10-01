@@ -40,7 +40,7 @@ services in one workspace.
 
 Three finalized contributions receive 1,000, 150 and 25 FT. A saved evaluation
 includes an intentional wrong-type sample, demonstrating that the service
-detects both exact-result and format differences. A fresh Codex-assisted
+detects both exact-result and format differences. A fresh agent-assisted
 completion proposed the artifact, self-submission and bounded order; the
 integration owner mediated execution through the separate grant checker. Claim
 and buyer acceptance are explicitly deterministic scripts.
