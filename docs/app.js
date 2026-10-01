@@ -1,5 +1,175 @@
 "use strict";
 (() => {
+  // frontend/presentation.ts
+  var SOURCE_URL = "https://github.com/mosexuanji/fairflow";
+  var DEPLOYMENT_URL = `${SOURCE_URL}/blob/main/docs/SEPOLIA_DEPLOYMENT.md`;
+  var DEPLOYED = {
+    project: "0xB1822256929b8a60CEf6e7840F63bf8D479AeCb8",
+    token: "0xC8fdaB63102303806b49945D4171ca04f3528C60",
+    receipt: "0xCc8dED8e01a373D38032887698a5E9A3791F7f0B"
+  };
+  function escapeHtml(value) {
+    return value.replace(/[&<>"']/g, (character) => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    })[character] ?? character);
+  }
+  function externalLink(url, label, className = "") {
+    return `<a class="${className}" href="${url}" target="_blank" rel="noopener noreferrer">${label}<span aria-hidden="true"> \u2197</span></a>`;
+  }
+  function projectModel(projectNames) {
+    const realNames = projectNames.filter((name) => typeof name === "string" && name.trim().length > 0);
+    const loaded = realNames.length > 0;
+    const displayed = loaded ? realNames.slice(0, 3) : ["An individual project"];
+    return `<aside class="ffp-project-model" aria-label="${loaded ? "Projects in the current data" : "Conceptual project model; project data not loaded"}">
+    <div class="ffp-model-caption">${loaded ? "PROJECTS IN THE CURRENT DATA" : "CONCEPTUAL MODEL \xB7 PROJECT DATA NOT LOADED"}</div>
+    <div class="ffp-model-root"><span class="ffp-model-mark" aria-hidden="true">F</span><div><strong>FairFlow</strong><span>Rules \xB7 recognition \xB7 accounting</span></div></div>
+    <div class="ffp-model-connector" aria-hidden="true"></div>
+    <div class="ffp-model-projects" data-project-columns="${displayed.length}">${displayed.map((name) => `<article class="ffp-model-project">
+      <h2>${escapeHtml(name)}</h2><ol><li>Contribution rules</li><li>Evidence &amp; recognition</li><li>Project FT &amp; receipts</li><li>Services &amp; revenue</li><li>Economic feedback</li></ol>
+    </article>`).join("")}</div>
+    ${realNames.length > displayed.length ? `<p class="ffp-model-more">${realNames.length - displayed.length} more project instances in the current data.</p>` : ""}
+    <div class="ffp-model-participants"><span>Humans <i aria-hidden="true">+</i> Agents</span><small>Participant types \xB7 the same project rules</small></div>
+    <p class="ffp-model-note">Each project keeps its own contribution history and economic accounting. Templates are a future product direction.</p>
+  </aside>`;
+  }
+  function deploymentDetails() {
+    return `<details class="ffp-deployment-details"><summary>Verified deployment contracts</summary><dl>${[
+      ["FairFlowProject", DEPLOYED.project],
+      ["Project FT (FFT)", DEPLOYED.token],
+      ["Contribution Receipt", DEPLOYED.receipt]
+    ].map(([label, address]) => `<div><dt>${label}</dt><dd>${externalLink(`https://sepolia.arbiscan.io/address/${address}`, `<code>${address}</code>`)}</dd></div>`).join("")}</dl></details>`;
+  }
+  function overviewView(context) {
+    const mode = context.recorded ? "Recorded, read-only demo" : "Local prototype workflow";
+    const captured = context.recorded && context.capturedAt ? `<span>Captured ${escapeHtml(context.capturedAt)}</span>` : "";
+    return `<div class="overview-page">
+    <section class="ffp-overview-hero" aria-labelledby="overview-title">
+      <div class="ffp-hero-copy"><p class="ffp-kicker">THE PROJECT ECONOMIC LAYER</p>
+        <h1 id="overview-title">Make contribution<br><span>count.</span></h1>
+        <p class="ffp-positioning">An economic operating layer for projects where humans and agents create, validate, use and pay for work together.</p>
+        <p class="ffp-hero-support">Define contribution rules before work begins. Recognize completed work under versioned rules. Settle services and connect contribution to project-level economic outcomes.</p>
+        <div class="ffp-actions"><a class="ffp-primary-link" href="#projects">Explore projects <span aria-hidden="true">\u2192</span></a><button class="ffp-secondary-button" type="button" data-how-it-works aria-controls="how-fairflow-works">How FairFlow works <span aria-hidden="true">\u2193</span></button></div>
+        <p class="ffp-hero-footnote">AI-first. Open to human and agent contribution.</p>
+      </div>
+      ${projectModel(context.projectNames)}
+    </section>
+
+    <div class="ffp-proof-strip" aria-label="Current demonstration and deployment">
+      <div><span class="ffp-proof-label">THE WORKFLOW YOU CAN EXPLORE</span><strong>${mode} <span class="ffp-proof-chain">\xB7 local chain 31337</span></strong>${captured}</div>
+      <div><span class="ffp-proof-label">PUBLIC-CHAIN DEPLOYMENT EVIDENCE</span><strong>${externalLink(DEPLOYMENT_URL, "Deployed on Arbitrum Sepolia", "ffp-proof-link")}</strong><span>Two confirmed transactions \xB7 policy v1 \xB7 91 read-only checks</span></div>
+    </div>
+
+    <section class="ffp-section" id="why-now" aria-labelledby="why-now-title">
+      <div class="ffp-section-heading"><p class="ffp-kicker">WHY NOW</p><h2 id="why-now-title">Building software is getting cheaper.<br>Organizing value is not.</h2><p>AI lowers the cost of creating applications, agents and workflows. The questions around contribution, authority and payment remain.</p></div>
+      <div class="ffp-three-columns">
+        <article class="ffp-light-card"><span class="ffp-card-index">01 / CONTRIBUTION</span><h3>What counts as work?</h3><p>Who contributed what? What evidence counts? How can users contribute value beyond a purchase?</p></article>
+        <article class="ffp-light-card"><span class="ffp-card-index">02 / COORDINATION</span><h3>Who can recognize it?</h3><p>Who may accept or reject work? How are humans and agents attributed, authorized and paid?</p></article>
+        <article class="ffp-light-card"><span class="ffp-card-index">03 / ECONOMICS</span><h3>Where does value flow?</h3><p>How does service revenue relate to contributors, operating budgets and the project's economic outcomes?</p></article>
+      </div>
+      <p class="ffp-section-conclusion">FairFlow focuses on what begins after an application can be built: organizing a project that people and agents can contribute to, evaluate, pay for and sustain.</p>
+    </section>
+
+    <section class="ffp-section ffp-how-section" id="how-fairflow-works" aria-labelledby="how-title">
+      <div class="ffp-section-heading"><p class="ffp-kicker">HOW FAIRFLOW WORKS</p><h2 id="how-title">A shared path from work to value.</h2><p>Contribution recognition and service settlement have distinct rules, connected within each project.</p></div>
+      <ol class="ffp-four-steps">
+        <li><span class="ffp-step-number">01</span><h3>Define</h3><p>Publish contribution roles, evidence requirements and economic rules before work begins.</p></li>
+        <li><span class="ffp-step-number">02</span><h3>Contribute</h3><p>Humans and agents build, promote, use, evaluate or otherwise contribute under those rules.</p></li>
+        <li><span class="ffp-step-number">03</span><h3>Recognize</h3><p>Review and finalize evidence under versioned rules. Recognized work can create permanent receipts and project-specific FT.</p></li>
+        <li><span class="ffp-step-number">04</span><h3>Settle</h3><p>Stable-value payments handle bounties and services. Settled revenue can support operations and economic feedback, including buyback and burn.</p></li>
+      </ol>
+      <div class="ffp-principle-note"><strong>Payment and usage alone do not earn contribution rewards.</strong><span>Work must meet the project's evidence and recognition rules. The local settlement demonstration uses synthetic LocalCash and mock liquidity.</span></div>
+    </section>
+
+    <section class="ffp-section" aria-labelledby="built-title">
+      <div class="ffp-section-heading ffp-heading-with-link"><div><p class="ffp-kicker">WHAT EXISTS TODAY</p><h2 id="built-title">Built for Open House Singapore.</h2><p>Implemented capabilities, with a controlled local workflow and separate public-chain deployment proof.</p></div>${externalLink(SOURCE_URL, "View public source", "ffp-inline-link")}</div>
+      <div class="ffp-capability-grid">
+        <article class="ffp-light-card"><span class="ffp-capability-icon" aria-hidden="true">01</span><h3>Rules before rewards</h3><p>Project-level contribution rules and versioned policy.</p><div class="ffp-role-tags"><span>Initiator</span><span>Builder</span><span>Promoter</span><span>User</span></div></article>
+        <article class="ffp-light-card"><span class="ffp-capability-icon" aria-hidden="true">02</span><h3>A permanent contribution record</h3><p>Evidence review and finalization, non-transferable receipts and project-specific FT.</p><small>Receipt integrity records recognized work; it does not establish factual truth by itself.</small></article>
+        <article class="ffp-light-card"><span class="ffp-capability-icon" aria-hidden="true">03</span><h3>Issuance follows contribution</h3><p>Diminishing marginal FT issuance, with no artificial lifetime issuance cap.</p><small>Burn reduces active supply without rolling back recognized contribution or issuance progress.</small></article>
+        <article class="ffp-light-card"><span class="ffp-capability-icon" aria-hidden="true">04</span><h3>Services have a settlement path</h3><p>Service settlement, revenue routing and separate operations / buyback accounting.</p><small>The demonstrated payment and burn loop is local. No live Sepolia service settlement or public DEX operation is claimed.</small></article>
+        <article class="ffp-light-card"><span class="ffp-capability-icon" aria-hidden="true">05</span><h3>Distinct project economies</h3><p>Isolated project ledgers, recognition history and token / cash accounting.</p><small>Contribution and financial records stay with their project.</small></article>
+        <article class="ffp-light-card"><span class="ffp-capability-icon" aria-hidden="true">06</span><h3>Bounded agent-assisted actions</h3><p>A fresh model-assisted proposal is checked by a separate executor against its permitted actions and budget.</p><small>Claim and buyer acceptance are deterministic scripts. Wallet controls and execution permissions stay separate from model judgment.</small></article>
+      </div>
+      <div class="ffp-release-evidence"><div><span class="ffp-status-dot" aria-hidden="true"></span><strong>Arbitrum Sepolia deployment verified</strong><p>FairFlowProject, its internally created FFT and Receipt, and policy v1 are confirmed on chain 421614. The public source and recorded demo are available.</p>${deploymentDetails()}</div>${externalLink(DEPLOYMENT_URL, "Inspect deployment evidence", "ffp-inline-link")}</div>
+      <p class="ffp-release-limit">The current release is a hackathon prototype, not a production economic network. Controlled demo roles do not establish independent review, external demand or real revenue. No external audit is claimed.</p>
+    </section>
+
+    <section class="ffp-section ffp-two-columns" aria-label="Who FairFlow is for">
+      <article class="ffp-audience-card"><p class="ffp-kicker">USERS CAN CONTRIBUTE</p><h2>Use can lead to useful work.</h2><p>Accepted feedback, corrections, evaluation, permitted data, useful usage evidence and discovery of real use cases can qualify under a project's rules.</p><p class="ffp-audience-footnote">A purchase or a visit alone does not become recognized contribution.</p></article>
+      <article class="ffp-audience-card"><p class="ffp-kicker">AI-FIRST, OPEN PARTICIPATION</p><h2>Build cheaply. Coordinate carefully.</h2><p>The strongest initial fit is projects with independent contributors, evidence or acceptance requirements, cross-party payments and meaningful contribution records.</p><p class="ffp-audience-footnote">Humans and agents use the same economic rules. Blockchain and project tokens are design choices for that fit, not requirements for every AI application.</p></article>
+    </section>
+    <div class="ffp-page-end"><p>Start with a project. Follow its rules, recognition and settlement.</p><a class="ffp-primary-link" href="#projects">Explore projects <span aria-hidden="true">\u2192</span></a></div>
+  </div>`;
+  }
+  function stageHeading(number, stage, status, title, id) {
+    return `<div class="ffp-stage-heading"><div class="ffp-stage-marker"><span>${number}</span><strong>${stage}</strong></div><div><span class="ffp-stage-status">${status}</span><h2 id="${id}">${title}</h2></div></div>`;
+  }
+  function roadmapView() {
+    return `<div class="roadmap-page">
+    <header class="ffp-roadmap-intro"><p class="ffp-kicker">FAIRFLOW / ROADMAP</p><h1>From project economies<br>to shared infrastructure.</h1><p>Capability stages, with implemented proof separated from planned product direction and exploratory protocol options. No dated delivery commitments.</p></header>
+    <ol class="ffp-stage-ribbon" aria-label="Capability stages">${[
+      ["NOW", "Project economies"],
+      ["NEXT", "Factory & templates"],
+      ["EXPAND", "Humans + agents"],
+      ["SCALE", "Shared validation"],
+      ["PROTOCOL", "Covenant layer"],
+      ["LONG TERM", "FairFlow Chain"]
+    ].map(([stage, title], index) => `<li><span>0${index + 1}</span><strong>${stage}</strong><small>${escapeHtml(title)}</small></li>`).join("")}</ol>
+
+    <section class="ffp-roadmap-stage ffp-stage-current" aria-labelledby="roadmap-now-title">
+      ${stageHeading("01", "NOW", "CURRENT PROTOTYPE", "Project Economies", "roadmap-now-title")}
+      <p class="ffp-stage-intro">Each project defines what counts as contribution, recognizes work and connects project-specific FT to its service economics.</p>
+      <ul class="ffp-feature-list"><li>Project-specific contribution rules, evidence and recognition</li><li>Project-specific FT and permanent receipts</li><li>Stable-value bounty / service-payment architecture</li><li>Revenue routing and operations / buyback accounting</li><li>Buyback / burn accounting without resetting contribution progress</li><li>Isolated project ledgers and token / cash accounting</li><li>Human and agent-compatible participation under bounded permissions</li></ul>
+      <ol class="ffp-economic-loop" aria-label="Core project economy loop"><li>Contribution</li><li>Recognition</li><li>Project FT</li><li>Service Revenue</li><li>Economic Feedback</li></ol>
+      <div class="ffp-stage-scope"><p><strong>Demonstrated locally:</strong> the recorded contribution, settlement and mock buyback / burn workflow on chain 31337.</p><p><strong>Public-chain proof:</strong> two authorized Arbitrum Sepolia deployment / policy transactions and 91 read-only checks. This does not establish live public service settlement.</p></div>
+    </section>
+
+    <section class="ffp-roadmap-stage" aria-labelledby="roadmap-next-title">
+      ${stageHeading("02", "NEXT", "PLANNED PRODUCT DIRECTION", "Project Factory &amp; Reusable Templates", "roadmap-next-title")}
+      <p class="ffp-stage-intro">Make the organization of an AI project reusable, alongside the software that powers it.</p>
+      <div class="ffp-three-columns">
+        <article class="ffp-template-family"><span>PRODUCTION</span><h3>How the service works</h3><p>How agents, models, data, tools and workflows combine into a service.</p></article>
+        <article class="ffp-template-family"><span>CONTRIBUTION &amp; VALIDATION</span><h3>How work is recognized</h3><p>Contribution criteria, evidence, review, attribution and protection from duplicate recognition.</p></article>
+        <article class="ffp-template-family"><span>ECONOMICS &amp; OPERATIONS</span><h3>How value is organized</h3><p>Rewards, project tokens, bounties, settlement, budgets, revenue routing and permissions.</p></article>
+      </div>
+      <p class="ffp-stage-followup">Potential later capabilities: reusable project templates, versioned schemas, a template library and project creation from tested configurations. The factory, library and template marketplace are not built today.</p>
+    </section>
+
+    <section class="ffp-roadmap-stage" aria-labelledby="roadmap-expand-title">
+      ${stageHeading("03", "EXPAND", "PLANNED PARTICIPATION &amp; ADAPTERS", "Human + Agent Economy", "roadmap-expand-title")}
+      <p class="ffp-stage-intro">Humans and agents use the same economic rules. <strong>Human and Agent are participant types, not contribution roles.</strong></p>
+      <div class="ffp-participation-model"><div class="ffp-participant-types"><span>Human</span><i aria-hidden="true">+</i><span>Agent</span></div><span class="ffp-participation-label">Either participant type can contribute as</span><div class="ffp-role-tags"><span>Initiator</span><span>Builder</span><span>Promoter</span><span>User</span></div></div>
+      <div class="ffp-two-columns ffp-expand-columns"><div><h3>Future agent capabilities</h3><ul class="ffp-plain-list"><li>Read rules and tasks; submit work and evidence</li><li>Query recognition state and receive authorized rewards</li><li>Purchase services and make programmable stablecoin payments under bounded permissions</li></ul></div><div><h3>Possible payment adapters</h3><div class="ffp-adapter-tags"><span>x402</span><span>MPP</span><span>Agent-wallet integrations</span></div><p>Future integration options, not current FairFlow functionality. Wallet controls and execution permissions remain separate from model judgment.</p></div></div>
+      <p class="ffp-stage-followup">User-side feedback, corrections, evaluation, permitted data and useful usage evidence can contribute value. Payment or usage alone does not trigger recognition or token rewards.</p>
+    </section>
+
+    <section class="ffp-roadmap-stage" aria-labelledby="roadmap-scale-title">
+      ${stageHeading("04", "SCALE", "FUTURE VALIDATION INFRASTRUCTURE", "Shared Validation Network", "roadmap-scale-title")}
+      <p class="ffp-stage-intro">A potential evolution beyond project-owner-designated review. A shared validator network does not exist in the current release.</p>
+      <ul class="ffp-feature-list"><li>Shared validator pool and specialized validators</li><li>Evidence standards and validator reputation</li><li>Cross-project attestations and a validation marketplace</li><li>Potential staking / slashing mechanisms</li><li>Threshold or consensus-based finalization where appropriate</li></ul>
+      <div class="ffp-issuance-principle"><span>THE ISSUANCE PRINCIPLE STAYS</span><p>Contribution happens <i aria-hidden="true">\u2192</i> validated <i aria-hidden="true">\u2192</i> finalized <i aria-hidden="true">\u2192</i> issuance</p><small>Issuance follows finalized contribution, rather than fixed epoch emissions.</small></div>
+    </section>
+
+    <section class="ffp-roadmap-stage" aria-labelledby="roadmap-protocol-title">
+      ${stageHeading("05", "PROTOCOL", "EXPLORATORY SHARED INFRASTRUCTURE", "FairFlow / Covenant Layer", "roadmap-protocol-title")}
+      <p class="ffp-stage-intro">Reusable contribution infrastructure + shared validation + independent project economies.</p>
+      <ul class="ffp-feature-list"><li>Contribution standards and shared validators</li><li>Shared security and common infrastructure</li><li>Protocol governance and treasury / fees</li><li>Ecosystem incentives and shared protocol economics</li></ul>
+      <div class="ffp-protocol-model"><span class="ffp-model-caption">CONCEPTUAL FUTURE MODEL</span><strong>FairFlow Protocol</strong><div class="ffp-protocol-projects"><div><b>AFT</b><span>Project A economy</span></div><div><b>BFT</b><span>Project B economy</span></div><div><b>CFT</b><span>Project C economy</span></div></div><p>Project tokens remain project-specific. These generic projects illustrate a future model, not additional current instances.</p></div>
+      <aside class="ffp-token-option"><span class="ffp-stage-status">DESIGN OPTION \xB7 NOT A LAUNCH PLAN</span><h3>A protocol token must earn its place.</h3><p>A protocol token is a design option, not a prerequisite. Its role must be justified by real shared utility.</p><p class="ffp-token-utilities">Potential utility to assess: validator staking, slashing collateral, shared governance, shared-security incentives and protocol economics.</p><small>No token decision, launch schedule, investment opportunity or expected token value is implied.</small></aside>
+    </section>
+
+    <section class="ffp-long-term" aria-labelledby="roadmap-chain-title"><p class="ffp-kicker">06 / LONG TERM</p><span class="ffp-long-term-condition">ONLY IF SCALE JUSTIFIES IT</span><h2 id="roadmap-chain-title">FairFlow Chain<br><span>built with Arbitrum</span></h2><p class="ffp-long-term-intro">A possible dedicated chain, only if substantial project count, contribution-event volume, validator activity, protocol execution requirements and protocol economics justify it.</p>
+      <div class="ffp-two-columns"><div><h3>Potential reasons for a dedicated chain</h3><ul class="ffp-plain-list"><li>Dedicated execution rules and a custom gas model</li><li>Validator economics and protocol-native settlement</li><li>High-frequency contribution / validation activity</li><li>Custom governance and data-availability choices</li></ul></div><div class="ffp-chain-options"><h3>Implementation choices come later</h3><p>Stylus or heavier compute could be assessed for complex scoring, cryptographic validation or heavier data checks.</p><p>Additional-chain adapters may be possible. The core direction is FairFlow's own product and protocol evolution.</p></div></div>
+      <p class="ffp-long-term-footnote">Exploratory direction only. No new chain, protocol token or validation network is deployed by this prototype.</p>
+    </section>
+    <div class="ffp-page-end"><div><p>Start with what is built today.</p>${externalLink(DEPLOYMENT_URL, "Deployed on Arbitrum Sepolia", "ffp-inline-link")}</div><a class="ffp-primary-link" href="#projects">Explore projects <span aria-hidden="true">\u2192</span></a></div>
+  </div>`;
+  }
+
   // frontend/main.ts
   var actionSpecs = {
     publishRule: { label: "Publish rule version", help: "Rules update prospectively. Accepted tasks retain fixed credits and cash rewards. Only the administrator can publish.", fields: [
@@ -51,6 +221,7 @@
   var recordedMode = document.documentElement.dataset.fairflowMode === "recorded-demo";
   var state = null;
   var tab = "projects";
+  var destination = "overview";
   var selectedProject = "";
   var capability = "";
   var busy = false;
@@ -124,7 +295,7 @@
     return `<details class="detail"><summary>${esc(title)}</summary><pre>${esc(json(value))}</pre></details>`;
   }
   function project() {
-    return state?.projects?.find((p) => String(p.id) === selectedProject) ?? state?.projects?.[0];
+    return state?.projects?.find((p) => String(p.id) === selectedProject);
   }
   async function request(path, body) {
     if (recordedMode && body !== void 0) throw new Error("This recorded demo is read-only. No transactions can be submitted.");
@@ -143,7 +314,7 @@
       const data = await request(recordedMode ? "./demo-state.json" : "/api/state");
       state = data;
       if (state.agent) state.agents = { session: state.agent.session ? { ...state.agent.session, nonce: state.agent.nonce, spent: state.agent.spent } : void 0, runs: state.agent.runs };
-      if (!state.projects?.some((p) => String(p.id) === selectedProject)) selectedProject = String(state.projects?.[0]?.id ?? "");
+      if (destination !== "project" && !state.projects?.some((p) => String(p.id) === selectedProject)) selectedProject = String(state.projects?.[0]?.id ?? "");
       lastRefresh = (/* @__PURE__ */ new Date()).toLocaleTimeString("en-US", { hour12: false });
     } catch (error) {
       loadError = error instanceof Error ? error.message : String(error);
@@ -161,16 +332,71 @@
     if (toastTimer) clearTimeout(toastTimer);
     toastTimer = setTimeout(() => element.remove(), 8500);
   }
+  function projectHref(p, step = "define") {
+    return `#project/${encodeURIComponent(String(p.id))}/${step}`;
+  }
+  function readRoute() {
+    const hash = window.location.hash.replace(/^#/, "");
+    if (!hash || hash === "overview") {
+      destination = "overview";
+      return;
+    }
+    if (hash === "projects" || hash === "roadmap") {
+      destination = hash;
+      return;
+    }
+    const match = /^project\/([^/]+)\/(define|recognize|settle)$/.exec(hash);
+    if (match) {
+      try {
+        selectedProject = decodeURIComponent(match[1]);
+      } catch {
+        destination = "not-found";
+        return;
+      }
+      destination = "project";
+      tab = { define: "projects", recognize: "contributions", settle: "funds" }[match[2]];
+      return;
+    }
+    destination = "not-found";
+  }
+  function openWorkflow(next) {
+    const current = project();
+    if (!current) return;
+    const step = { projects: "define", contributions: "recognize", funds: "settle" }[next];
+    window.location.hash = projectHref(current, step);
+  }
+  function projectHierarchy(p) {
+    return `<div class="project-hierarchy"><div class="breadcrumb"><a href="#projects">Projects</a><span>/</span><strong>${esc(p.name ?? `Project ${p.id}`)}</strong></div><a class="all-projects" href="#projects">\u2190 All projects</a></div><div class="project-toolbar"><div class="workspace-context"><label for="project-select" class="context-label">PROJECT</label><select id="project-select" class="project-select" aria-label="Select project">${(state?.projects ?? []).map((item) => `<option value="${esc(item.id)}" ${String(item.id) === String(p.id) ? "selected" : ""}>${esc(item.name ?? `Project ${item.id}`)}</option>`).join("")}</select><span class="context-note">${recordedMode ? "Recorded ledger" : "Local ledger"}</span></div><nav class="workflow-nav" aria-label="Selected project workflow">${["projects", "contributions", "funds"].map((item, index) => `<button class="nav-button ${tab === item ? "active" : ""}" data-tab="${item}" aria-current="${tab === item ? "step" : "false"}"><span class="nav-number">0${index + 1}</span>${["Define work", "Recognize work", "Settle & burn"][index]}</button>`).join("")}</nav></div>`;
+  }
+  function projectsView() {
+    const projects = state?.projects ?? [];
+    return `<section class="projects-page"><div class="projects-intro"><div><div class="eyebrow">FAIRFLOW / PROJECTS</div><h1>A shared layer.<br><span>Independent projects.</span></h1><p>Each FairFlow project has its own contribution rules, recognition history, token accounting and service economics.</p></div><div class="projects-count"><strong>${projects.length}</strong><span>${recordedMode ? "recorded" : "local"} project instances</span></div></div><p class="projects-disclosure">${recordedMode ? `Recorded local state \xB7 captured ${esc(time(state?.presentation?.capturedAt))}. These figures are not live Arbitrum Sepolia activity.` : "Current disposable local state on chain 31337. Public-chain deployment evidence is separate."}</p><div class="project-cards">${projects.map((p, index) => {
+      const contributions = list(p.contributions);
+      const recognized = contributions.filter((item) => item.status === "FINALIZED").length;
+      const orders = list(p.orders);
+      const settled = orders.filter((item) => item.status === "SETTLED");
+      const serviceTotal = settled.reduce((sum, order) => sum + numeric(order.price), 0n);
+      return `<article class="project-card"><div class="project-card-top"><span class="project-card-number">0${index + 1}</span><span class="badge ${recognized > 0 ? "green" : ""}">${recognized > 0 ? "Work recognized" : "No recognized work"}</span></div><h2>${esc(p.name ?? `Project ${p.id}`)}</h2><p class="project-card-description">${recognized > 0 ? "Contribution recognition and paid evaluation, in one project economy." : "An isolated instance with its own rules and unchanged zero balances."}</p><dl class="project-card-metrics"><div><dt>Recognized credits</dt><dd>${esc(quantity(p.credits, "credit"))}</dd></div><div><dt>Total FT issued</dt><dd>${esc(quantity(p.grossIssued, "token"))}</dd></div><div><dt>Active FT supply</dt><dd>${esc(quantity(p.totalSupply, "token"))}</dd></div><div><dt>Recognized contributions</dt><dd>${recognized}<small> / ${contributions.length} recorded</small></dd></div></dl><div class="project-card-service"><span>Service settlement</span><strong>${settled.length} settled ${settled.length === 1 ? "order" : "orders"} \xB7 ${esc(quantity(serviceTotal.toString(), "cash"))} ${esc(units("cash"))}</strong><small>${orders.length === 0 ? "No service orders in this ledger." : `${orders.length} order${orders.length === 1 ? "" : "s"} in this ledger; refundable funds are separate from settled revenue.`}</small></div><div class="project-card-footer"><span>Project-specific FT \xB7 Rule v${esc(p.policyVersion)}</span><a class="button primary" href="${esc(projectHref(p))}">Open project <span>\u2192</span></a></div></article>`;
+    }).join("")}</div>${projects.length === 0 ? empty(loading ? "Reading project instances\u2026" : "No project records are available.") : ""}<div class="projects-principle"><span>ONE PLATFORM \xB7 SEPARATE ECONOMIES</span><p>Credits, issuance, receipts and service funds stay with their project. Activity in one ledger does not create progress in another.</p></div></section>`;
+  }
   function render() {
     const current = project();
-    app.innerHTML = `<div class="shell"><header class="app-header"><a class="brand" href="#" aria-label="FairFlow home" data-home><span class="brand-symbol"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M5 5h18v5H10v4h10v5H10v5H5z" fill="currentColor"/></svg></span>FairFlow<span class="brand-sub">CONTRIBUTION & SETTLEMENT</span></a><nav class="nav" aria-label="Workspace navigation">${["projects", "contributions", "funds"].map((item, index) => `<button class="nav-button ${tab === item ? "active" : ""}" data-tab="${item}" aria-current="${tab === item ? "page" : "false"}"><span class="nav-number">0${index + 1}</span>${["Define work", "Recognize work", "Settle & burn"][index]}</button>`).join("")}</nav><div class="header-tools">${environmentDisclosure()}<button class="icon-button" id="refresh" aria-label="${recordedMode ? "Reload recorded snapshot" : "Refresh local chain state"}" title="${recordedMode ? "Reload snapshot" : "Refresh chain state"}" ${loading ? "disabled" : ""}><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16 8a6 6 0 1 0 .2 4M16 3v5h-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></header><main class="main">
+    const activeTop = destination === "project" ? "projects" : destination;
+    let content;
+    if (destination === "overview") content = overviewView({ recorded: recordedMode, projectNames: (state?.projects ?? []).map((p) => text(p.name, `Project ${p.id}`)), capturedAt: state?.presentation?.capturedAt });
+    else if (destination === "roadmap") content = roadmapView();
+    else if (destination === "projects") content = state ? projectsView() : `<section class="loading-stage"><h1>Projects</h1>${empty(loading ? "Reading project instances\u2026" : "Project data is unavailable. Please reload the snapshot.")}<a href="#overview">\u2190 Overview</a></section>`;
+    else if (destination === "project" && state && current) content = `${projectHierarchy(current)}${tab === "projects" ? projectView(current) : tab === "contributions" ? contributionView(current) : fundsView(current)}`;
+    else if (destination === "project" && !state) content = `<section class="loading-stage"><h1>Project workflow</h1>${empty(loading ? "Reading project data\u2026" : "Project data is unavailable. Please reload the snapshot.")}<a href="#projects">\u2190 All projects</a></section>`;
+    else content = `<section class="loading-stage"><div class="eyebrow">FAIRFLOW</div><h1>${destination === "project" ? "Project not found." : "Page not found."}</h1><p>This address does not identify an available page or project.</p><a class="button primary" href="#projects">Explore projects \u2192</a></section>`;
+    document.title = `${destination === "project" && current ? text(current.name) : destination === "overview" ? "Overview" : destination === "roadmap" ? "Roadmap" : destination === "projects" ? "Projects" : "Page not found"} \xB7 FairFlow`;
+    app.innerHTML = `<div class="shell"><header class="app-header site-header"><a class="brand" href="#overview" aria-label="FairFlow home"><span class="brand-symbol"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M5 5h18v5H10v4h10v5H10v5H5z" fill="currentColor"/></svg></span>FairFlow<span class="brand-sub">CONTRIBUTION & SETTLEMENT</span></a><nav class="site-nav" aria-label="FairFlow navigation">${["overview", "projects", "roadmap"].map((item) => `<a class="site-nav-button ${activeTop === item ? "active" : ""}" href="#${item}" aria-current="${activeTop === item ? "page" : "false"}">${item.charAt(0).toUpperCase() + item.slice(1)}</a>`).join("")}</nav><div class="header-tools">${environmentDisclosure()}<button class="icon-button" id="refresh" aria-label="${recordedMode ? "Reload recorded snapshot" : "Refresh local chain state"}" title="${recordedMode ? "Reload snapshot" : "Refresh chain state"}" ${loading ? "disabled" : ""}><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16 8a6 6 0 1 0 .2 4M16 3v5h-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></header><main class="main">
     ${loadError ? `<div class="notice error" role="alert"><strong>Unable to read state.</strong> ${esc(loadError)} ${state ? "The last read is retained; current state has not been reverified." : "Please retry when the data source is available."}</div>` : ""}
-    ${state && current ? `<div class="workspace-context"><span class="context-label">PROJECT</span><select id="project-select" class="project-select" aria-label="Select project">${(state.projects ?? []).map((p) => `<option value="${esc(p.id)}" ${String(p.id) === String(current.id) ? "selected" : ""}>${esc(p.name ?? `Project ${p.id}`)}</option>`).join("")}</select><span class="context-divider"></span><span class="context-note">${recordedMode ? `Snapshot captured ${esc(time(state.presentation?.capturedAt))}` : "Local ledger \xB7 reads from the chain"}${loading ? " \xB7 refreshing" : ""}</span></div>${tab === "projects" ? projectView(current) : tab === "contributions" ? contributionView(current) : fundsView(current)}` : `<section class="loading-stage"><div class="eyebrow">FAIRFLOW</div><h1>Make contribution count.</h1><p>A shared record of AI project work, rewards and service settlement.</p>${empty(loading ? "Reading project data\u2026" : "No project data is available yet.")}</section>`}
-    <footer class="footer"><span>Candidate demo economics. No investment, redemption or return promise.</span><span>${recordedMode ? "Read-only recorded local demo" : `${lastRefresh ? `Last read ${esc(lastRefresh)}` : "Not read yet"} \xB7 Local prototype`}</span></footer></main></div>`;
+    ${content}<footer class="footer"><span>Hackathon prototype \xB7 Candidate economics. No investment, redemption or return promise.</span><span>${recordedMode ? `Read-only recorded local demo \xB7 ${esc(time(state?.presentation?.capturedAt))}` : `${lastRefresh ? `Last read ${esc(lastRefresh)}` : "Not read yet"} \xB7 Local prototype`}</span></footer></main></div>`;
     bind();
   }
   function environmentDisclosure() {
-    return `<details class="environment-detail"><summary><span class="environment-dot"></span>${recordedMode ? "Recorded local demo" : "Local prototype"}<span class="disclosure-chevron">\u2304</span></summary><div class="environment-content"><strong>${recordedMode ? "A captured demonstration, not a live public deployment." : "A disposable local test environment."}</strong><p>${recordedMode ? `Read-only snapshot captured ${esc(time(state?.presentation?.capturedAt))}. No wallet connection, signatures or transactions are available. ` : "Actions use controlled, disposable local accounts on chain 31337. "}LocalCash, contributions, orders and liquidity are test data. Buyback uses a local Mock DEX, not an official public DEX.</p><p>The reviewer is controlled by the demo team. The 60-second review delay is not independent review or decentralized arbitration. A digest proves content integrity, not factual truth.</p><p>No public-network deployment, real liquidity, independent demand, production readiness or returns are implied. The demo issuance curve has no artificial total cap; burn never resets issuance progress.</p>${recordedMode ? "" : `<div class="permission-chip">${capability ? "Local owner controls available" : "Read-only session"}</div>`}</div></details>`;
+    return `<details class="environment-detail"><summary><span class="environment-dot"></span>${recordedMode ? "Recorded local demo" : "Local prototype"}<span class="disclosure-chevron">\u2304</span></summary><div class="environment-content"><strong>${recordedMode ? "A recorded local workflow; public deployment evidence is separate." : "A disposable local test environment."}</strong><p>${recordedMode ? `Read-only snapshot captured ${esc(time(state?.presentation?.capturedAt))}. No wallet connection, signatures or transactions are available. ` : "Actions use controlled, disposable local accounts on chain 31337. "}LocalCash, contributions, orders and liquidity are test data. Buyback uses a local Mock DEX, not an official public DEX.</p><p>The reviewer is controlled by the demo team. The 60-second review delay is not independent review or decentralized arbitration. A digest proves content integrity, not factual truth.</p><p>Arbitrum Sepolia contracts are deployed separately from this local workflow. No real liquidity, independent demand, production readiness or returns are implied. The demo issuance curve has no artificial total cap; burn never resets issuance progress.</p>${recordedMode ? "" : `<div class="permission-chip">${capability ? "Local owner controls available" : "Read-only session"}</div>`}</div></details>`;
   }
   function allocationSplit() {
     const bps = state?.config?.buybackBps;
@@ -281,19 +507,15 @@
       void refresh();
     });
     document.querySelectorAll("[data-tab]").forEach((element) => element.addEventListener("click", () => {
-      tab = element.dataset.tab;
-      render();
+      openWorkflow(element.dataset.tab);
     }));
     document.querySelector("#project-select")?.addEventListener("change", (event) => {
-      selectedProject = event.target.value;
-      render();
+      const id = event.target.value;
+      const next = state?.projects?.find((p) => String(p.id) === id);
+      if (next) window.location.hash = projectHref(next, { projects: "define", contributions: "recognize", funds: "settle" }[tab]);
     });
     document.querySelector("#agent-template")?.addEventListener("click", () => fillAgentTemplate());
-    document.querySelector("[data-home]")?.addEventListener("click", (event) => {
-      event.preventDefault();
-      tab = "projects";
-      render();
-    });
+    document.querySelector("[data-how-it-works]")?.addEventListener("click", () => document.querySelector("#how-fairflow-works")?.scrollIntoView({ behavior: "smooth", block: "start" }));
     document.querySelectorAll("[data-agent-accept]").forEach((element) => element.addEventListener("click", () => {
       const controls = document.querySelector(".agent-controls");
       if (controls) controls.open = true;
@@ -403,7 +625,13 @@
     const control = field.type === "json" ? `<textarea id="${id}" name="${esc(field.key)}" ${required} placeholder="${esc(field.placeholder)}" spellcheck="false">${value === void 0 ? "" : esc(json(value))}</textarea>` : field.type === "role" || field.type === "actorType" ? `<select id="${id}" name="${esc(field.key)}">${(field.type === "role" ? ["Initiator", "Builder", "Promoter", "User"] : ["Human", "Agent", "Organization"]).map((label, index) => `<option value="${index}" ${String(value) === String(index) ? "selected" : ""}>${label}</option>`).join("")}</select>` : `<input id="${id}" name="${esc(field.key)}" type="${field.type === "number" ? "number" : "text"}" ${field.type === "number" ? 'min="1" step="1"' : ""} ${required} placeholder="${esc(field.placeholder)}" value="${value === void 0 ? "" : esc(value)}" autocomplete="off" />`;
     return `<div class="field"><label for="${id}">${esc(field.label)}${field.optional ? " (optional)" : ""}</label>${control}${field.help ? `<small>${esc(field.help)}</small>` : ""}</div>`;
   }
+  window.addEventListener("hashchange", () => {
+    readRoute();
+    render();
+    window.scrollTo({ top: 0, behavior: "instant" });
+  });
   async function start() {
+    readRoute();
     render();
     if (!recordedMode) {
       try {
