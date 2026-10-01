@@ -1,0 +1,316 @@
+.overview-page,.roadmap-page{--ffp-navy:#101d33;--ffp-ink:#1c2e49;--ffp-muted:#63748c;--ffp-border:#dfe6f0;--ffp-blue:#426bee;--ffp-violet:#7668e6;min-width:0;padding:26px 0 8px;color:var(--ffp-ink)}
+:is(.overview-page,.roadmap-page) p{margin:0}
+:is(.overview-page,.roadmap-page) a,:is(.overview-page,.roadmap-page) button{touch-action:manipulation}
+:is(.overview-page,.roadmap-page) a:focus-visible,:is(.overview-page,.roadmap-page) button:focus-visible,:is(.overview-page,.roadmap-page) summary:focus-visible{outline:3px solid #99adff;outline-offset:4px}
+:is(.overview-page,.roadmap-page) .ffp-kicker{font-size:10px;font-weight:700;letter-spacing:1.8px;line-height:1.5;color:#627da6;margin:0 0 13px}
+:is(.overview-page,.roadmap-page) h2{font-size:30px;line-height:1.2;letter-spacing:-1px;font-weight:650;margin:0;color:var(--ffp-ink)}
+:is(.overview-page,.roadmap-page) h3{font-size:16px;line-height:1.4;letter-spacing:-.25px;font-weight:650;margin:0 0 10px;color:var(--ffp-ink)}
+:is(.overview-page,.roadmap-page) .ffp-primary-link{display:inline-flex;align-items:center;justify-content:center;gap:24px;padding:13px 19px;border:1px solid var(--ffp-blue);border-radius:7px;background:var(--ffp-blue);color:#fff;font-size:13px;font-weight:600;text-decoration:none;white-space:nowrap;transition:background .15s,box-shadow .15s}
+:is(.overview-page,.roadmap-page) .ffp-primary-link:hover{background:#3159d8;border-color:#3159d8;box-shadow:0 4px 14px #2d51c126}
+:is(.overview-page,.roadmap-page) .ffp-inline-link{display:inline-flex;align-items:center;gap:8px;font-size:12px;font-weight:600;color:#365ec9;line-height:1.6}
+:is(.overview-page,.roadmap-page) .ffp-two-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+:is(.overview-page,.roadmap-page) .ffp-three-columns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+:is(.overview-page,.roadmap-page) .ffp-role-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:15px}
+:is(.overview-page,.roadmap-page) .ffp-role-tags span{font-size:10px;line-height:1.5;color:#4b6082;background:#edf2fb;border:1px solid #dfe7f5;padding:5px 8px;border-radius:4px}
+:is(.overview-page,.roadmap-page) .ffp-page-end{display:flex;justify-content:space-between;align-items:center;gap:24px;border-top:1px solid var(--ffp-border);padding:28px 0 10px;margin-top:42px}
+:is(.overview-page,.roadmap-page) .ffp-page-end p{font-size:16px;font-weight:550;line-height:1.5;color:#405573;margin-bottom:6px}
+
+.overview-page .ffp-overview-hero{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:center;gap:45px;padding:42px 44px;background:radial-gradient(ellipse at 88% 6%,#34466b55 0,transparent 54%),radial-gradient(ellipse at 68% 100%,#55409029 0,transparent 45%),var(--ffp-navy);border:1px solid #24354f;border-radius:12px;color:#eef3ff;overflow:hidden}
+.overview-page .ffp-hero-copy{min-width:0}
+.overview-page .ffp-hero-copy .ffp-kicker{color:#93a9cd;margin-bottom:18px}
+.overview-page .ffp-hero-copy h1{font-size:clamp(44px,5.2vw,66px);font-weight:650;line-height:1.04;letter-spacing:-2.8px;color:#f5f7ff;margin:0}
+.overview-page .ffp-hero-copy h1 span{color:#91aaff}
+.overview-page .ffp-positioning{font-size:16px;line-height:1.65;color:#e2e9f7;margin-top:22px;max-width:510px}
+.overview-page .ffp-hero-support{font-size:12px;line-height:1.85;color:#afbdd3;margin-top:13px;max-width:470px}
+.overview-page .ffp-actions{display:flex;align-items:center;gap:20px;flex-wrap:wrap;margin-top:24px}
+.overview-page .ffp-secondary-button{display:inline-flex;align-items:center;gap:10px;border:0;padding:10px 0;background:transparent;color:#c2cde1;font-size:12px;font-weight:500;cursor:pointer}
+.overview-page .ffp-secondary-button:hover{color:#fff}
+.overview-page .ffp-hero-footnote{font-size:10px;line-height:1.6;color:#98a9c4;margin-top:17px}
+.overview-page .ffp-project-model{min-width:0;background:#14243bb5;border:1px solid #3b4e6c75;border-radius:9px;padding:22px 20px 17px;box-shadow:0 18px 48px #00000015}
+.overview-page .ffp-model-caption,.roadmap-page .ffp-model-caption{display:block;font-size:8px;font-weight:600;letter-spacing:1.1px;line-height:1.7;color:#9badca;margin-bottom:15px}
+.overview-page .ffp-model-root{display:flex;justify-content:center;align-items:center;gap:11px;padding:12px;background:linear-gradient(115deg,#25416d,#34365f);border:1px solid #506a9166;border-radius:7px}
+.overview-page .ffp-model-mark{display:grid;place-items:center;flex-shrink:0;width:31px;height:31px;border:1px solid #9bb0ff55;border-radius:6px;color:#d9e3ff;font-size:19px;font-weight:700}
+.overview-page .ffp-model-root strong{display:block;font-size:19px;line-height:1.35;letter-spacing:-.5px;color:#eff3ff}
+.overview-page .ffp-model-root div>span{display:block;font-size:9px;color:#b6c5df;line-height:1.7;margin-top:2px}
+.overview-page .ffp-model-connector{width:1px;height:20px;margin:auto;background:#5e759b}
+.overview-page .ffp-model-projects{--ffp-project-columns:1;display:grid;grid-template-columns:repeat(var(--ffp-project-columns),minmax(0,1fr));gap:9px;position:relative}
+.overview-page .ffp-model-projects[data-project-columns="1"]{--ffp-project-columns:1}
+.overview-page .ffp-model-projects[data-project-columns="2"]{--ffp-project-columns:2}
+.overview-page .ffp-model-projects[data-project-columns="3"]{--ffp-project-columns:3}
+.overview-page .ffp-model-projects:before{content:"";position:absolute;left:calc(50% / var(--ffp-project-columns));right:calc(50% / var(--ffp-project-columns));height:1px;background:#5e759b;top:0}
+.overview-page .ffp-model-project{min-width:0;position:relative;padding:18px 12px 12px;margin-top:13px;border:1px solid #405575;border-radius:6px;background:#1a2c46}
+.overview-page .ffp-model-project:before{content:"";width:1px;height:13px;position:absolute;top:-14px;left:50%;background:#5e759b}
+.overview-page .ffp-model-project h2{font-size:12px;line-height:1.5;letter-spacing:-.1px;font-weight:600;color:#e2eaff;overflow-wrap:anywhere;min-height:36px;margin:0 0 10px}
+.overview-page .ffp-model-project ol{list-style:none;margin:0;padding:0;display:grid;gap:0}
+.overview-page .ffp-model-project li{padding:7px 0;border-top:1px solid #334a6a;font-size:8px;line-height:1.6;color:#b2c3dc;overflow-wrap:anywhere}
+.overview-page .ffp-model-project li:last-child{color:#b9b9f2}
+.overview-page .ffp-model-more{font-size:9px;line-height:1.6;color:#b6c5df;margin-top:10px}
+.overview-page .ffp-model-participants{padding:14px 0 11px;margin-top:14px;border-top:1px solid #3d506d;text-align:center}
+.overview-page .ffp-model-participants>span{font-size:13px;color:#e0e9fa;font-weight:550}
+.overview-page .ffp-model-participants i{font-style:normal;color:#8296c0;margin:0 9px}
+.overview-page .ffp-model-participants small{display:block;font-size:9px;line-height:1.6;color:#a7b8d1;margin-top:5px}
+.overview-page .ffp-model-note{font-size:8px;line-height:1.8;color:#99aecb}
+.overview-page .ffp-proof-strip{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;padding:22px 8px 20px;border-bottom:1px solid var(--ffp-border)}
+.overview-page .ffp-proof-strip>div{display:flex;flex-direction:column;min-width:0}
+.overview-page .ffp-proof-strip>div+div{border-left:1px solid var(--ffp-border);padding-left:26px}
+.overview-page .ffp-proof-label{font-size:8px;line-height:1.6;font-weight:700;color:#8290a5;letter-spacing:1px;margin-bottom:7px}
+.overview-page .ffp-proof-strip strong{font-size:12px;font-weight:600;line-height:1.6;color:#394e70}
+.overview-page .ffp-proof-chain{font-weight:400;color:#697d99}
+.overview-page .ffp-proof-strip div>span:last-child:not(.ffp-proof-label){font-size:9px;line-height:1.7;color:#75859b;margin-top:5px;overflow-wrap:anywhere}
+.overview-page .ffp-proof-link{color:#315bbb}
+.overview-page .ffp-section{margin-top:47px;scroll-margin-top:24px}
+.overview-page .ffp-section-heading{margin-bottom:24px}
+.overview-page .ffp-section-heading>p:last-child,.overview-page .ffp-section-heading>div>p:last-child{font-size:13px;line-height:1.85;color:var(--ffp-muted);max-width:780px;margin-top:13px}
+.overview-page .ffp-heading-with-link{display:flex;justify-content:space-between;align-items:flex-end;gap:25px}
+.overview-page .ffp-heading-with-link>a{flex-shrink:0;margin-bottom:4px}
+.overview-page .ffp-light-card{background:#fff;border:1px solid var(--ffp-border);border-radius:8px;padding:24px;min-width:0}
+.overview-page .ffp-light-card p{font-size:12px;line-height:1.85;color:#65758d}
+.overview-page .ffp-card-index{display:block;font-size:8px;font-weight:600;letter-spacing:1px;color:#7d90ae;margin-bottom:17px}
+.overview-page .ffp-section-conclusion{font-size:13px;line-height:1.9;color:#60748e;margin-top:19px;max-width:980px}
+.overview-page .ffp-four-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));list-style:none;padding:0;margin:0;border:1px solid var(--ffp-border);border-radius:8px;background:#fff;overflow:hidden}
+.overview-page .ffp-four-steps>li{padding:27px 25px;position:relative}
+.overview-page .ffp-four-steps>li+li{border-left:1px solid var(--ffp-border)}
+.overview-page .ffp-step-number{display:block;font-size:10px;color:#627fb1;font-weight:600;margin-bottom:23px}
+.overview-page .ffp-four-steps h3{font-size:19px;margin-bottom:13px}
+.overview-page .ffp-four-steps p{font-size:11px;line-height:1.85;color:#667891}
+.overview-page .ffp-principle-note{display:flex;justify-content:space-between;gap:25px;align-items:center;background:#edf2fb;border:1px solid #dce5f4;border-radius:6px;margin-top:14px;padding:16px 21px}
+.overview-page .ffp-principle-note strong{font-size:11px;line-height:1.7;font-weight:600;color:#425c86;max-width:330px}
+.overview-page .ffp-principle-note span{font-size:10px;line-height:1.8;color:#647ca0;max-width:630px}
+.overview-page .ffp-capability-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}
+.overview-page .ffp-capability-icon{display:inline-grid;place-items:center;width:30px;height:30px;border:1px solid #dce5f6;border-radius:6px;background:#eff3fc;color:#667fab;font-size:10px;font-weight:650;margin-bottom:18px}
+.overview-page .ffp-light-card small{display:block;font-size:10px;line-height:1.85;color:#76869d;margin-top:12px}
+.overview-page .ffp-release-evidence{display:flex;justify-content:space-between;align-items:flex-start;gap:30px;padding:23px 26px;border:1px solid #d7e4de;border-radius:8px;background:#f5faf8;margin-top:19px}
+.overview-page .ffp-release-evidence>div{min-width:0;max-width:830px}
+.overview-page .ffp-release-evidence strong{font-size:13px;font-weight:600;color:#2c6553;line-height:1.7}
+.overview-page .ffp-status-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#318264;margin-right:8px;vertical-align:middle}
+.overview-page .ffp-release-evidence p{font-size:11px;line-height:1.85;color:#607e73;margin-top:8px}
+.overview-page .ffp-release-evidence>a{flex-shrink:0;padding-top:4px}
+.overview-page .ffp-deployment-details{margin-top:15px}
+.overview-page .ffp-deployment-details summary{font-size:11px;color:#4f7167;cursor:pointer;line-height:1.6}
+.overview-page .ffp-deployment-details dl{margin:13px 0 0;display:grid;gap:9px}
+.overview-page .ffp-deployment-details dl>div{display:grid;grid-template-columns:145px minmax(0,1fr);align-items:start;gap:13px}
+.overview-page .ffp-deployment-details dt{font-size:10px;color:#667d74;line-height:1.8}
+.overview-page .ffp-deployment-details dd{margin:0;min-width:0;font-size:10px;line-height:1.8}
+.overview-page .ffp-deployment-details code{font:10px/1.8 Consolas,monospace;overflow-wrap:anywhere}
+.overview-page .ffp-release-limit{font-size:10px;line-height:1.9;color:#718095;margin-top:14px;max-width:1000px}
+.overview-page .ffp-audience-card{padding:29px 30px;border:1px solid var(--ffp-border);border-radius:8px;background:#eef2f8}
+.overview-page .ffp-audience-card h2{font-size:24px;letter-spacing:-.6px}
+.overview-page .ffp-audience-card p:not(.ffp-kicker){font-size:12px;line-height:1.9;color:#5c718e;margin-top:15px}
+.overview-page .ffp-audience-card .ffp-audience-footnote{font-size:10px!important;line-height:1.85!important;color:#768aa7!important}
+
+.roadmap-page .ffp-roadmap-intro{max-width:870px;padding:16px 0 28px}
+.roadmap-page .ffp-roadmap-intro h1{font-size:clamp(36px,4.4vw,54px);line-height:1.12;letter-spacing:-2px;color:var(--ffp-navy);font-weight:650}
+.roadmap-page .ffp-roadmap-intro>p:last-child{font-size:14px;line-height:1.85;color:var(--ffp-muted);max-width:740px;margin-top:20px}
+.roadmap-page .ffp-stage-ribbon{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));list-style:none;margin:8px 0 32px;padding:0;background:var(--ffp-navy);border:1px solid #293a55;border-radius:8px;overflow:hidden}
+.roadmap-page .ffp-stage-ribbon li{display:flex;flex-direction:column;gap:7px;padding:19px 20px;position:relative}
+.roadmap-page .ffp-stage-ribbon li+li{border-left:1px solid #32415a}
+.roadmap-page .ffp-stage-ribbon span{font-size:8px;color:#8c9dc2;font-weight:600}
+.roadmap-page .ffp-stage-ribbon strong{font-size:11px;font-weight:600;color:#d7e1f7;line-height:1.6;letter-spacing:.8px}
+.roadmap-page .ffp-stage-ribbon small{font-size:9px;font-weight:400;color:#9eafce;line-height:1.7}
+.roadmap-page .ffp-stage-ribbon li:first-child strong{color:#a9beff}
+.roadmap-page .ffp-roadmap-stage{padding:29px 32px;margin-bottom:21px;background:#fff;border:1px solid var(--ffp-border);border-radius:9px;min-width:0}
+.roadmap-page .ffp-stage-current{border-color:#cedaf1;background:linear-gradient(135deg,#f7faff,#fff 75%)}
+.roadmap-page .ffp-stage-heading{display:flex;align-items:flex-start;gap:23px}
+.roadmap-page .ffp-stage-marker{flex-shrink:0;width:93px;padding-right:19px;border-right:1px solid #dfe5ee}
+.roadmap-page .ffp-stage-marker>span{display:block;font-size:10px;color:#91a0b6;margin:2px 0 11px}
+.roadmap-page .ffp-stage-marker>strong{display:block;color:#526d9c;font-size:11px;font-weight:700;line-height:1.5;letter-spacing:.6px}
+.roadmap-page .ffp-stage-status{display:block;font-size:8px;font-weight:600;letter-spacing:1.2px;line-height:1.8;color:#8075a7;margin:0 0 7px}
+.roadmap-page .ffp-stage-current .ffp-stage-status{color:#2d7960}
+.roadmap-page .ffp-stage-heading h2{font-size:28px;line-height:1.3}
+.roadmap-page .ffp-stage-intro{font-size:13px;color:#61758f;line-height:1.9;max-width:900px;margin-top:24px}
+.roadmap-page .ffp-stage-intro strong{font-weight:600;color:#415a7b}
+.roadmap-page .ffp-feature-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px 28px;padding:0;margin:22px 0;list-style:none}
+.roadmap-page .ffp-feature-list li{position:relative;padding-left:16px;font-size:12px;line-height:1.75;color:#60718b}
+.roadmap-page .ffp-feature-list li:before{content:"";position:absolute;left:0;top:8px;width:4px;height:4px;border-radius:1px;background:#8098c6}
+.roadmap-page .ffp-economic-loop{display:flex;align-items:center;justify-content:space-between;list-style:none;gap:15px;flex-wrap:wrap;padding:17px 21px;margin:25px 0 0;border:1px solid #d7e1f3;border-radius:6px;background:#edf3fe}
+.roadmap-page .ffp-economic-loop li{font-size:11px;font-weight:550;color:#46628d;line-height:1.8}
+.roadmap-page .ffp-economic-loop li+li:before{content:"→";font-weight:400;color:#9bacca;margin-right:18px}
+.roadmap-page .ffp-stage-scope{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin-top:18px}
+.roadmap-page .ffp-stage-scope p{font-size:10px;line-height:1.9;color:#7a8ba1}
+.roadmap-page .ffp-stage-scope strong{font-weight:600;color:#5a7295}
+.roadmap-page .ffp-template-family{margin-top:21px;padding:23px 20px;border:1px solid #e0e7f2;border-radius:7px;background:#f6f8fc;min-width:0}
+.roadmap-page .ffp-template-family>span{font-size:8px;font-weight:650;line-height:1.8;color:#7b73a4;letter-spacing:.5px}
+.roadmap-page .ffp-template-family h3{font-size:15px;margin:12px 0 9px}
+.roadmap-page .ffp-template-family p{font-size:11px;line-height:1.85;color:#6c7e97}
+.roadmap-page .ffp-stage-followup{font-size:11px;line-height:1.9;color:#7d8aa1;margin-top:21px}
+.roadmap-page .ffp-participation-model{display:flex;align-items:center;gap:23px;flex-wrap:wrap;padding:20px 23px;border:1px solid #dde4f1;border-radius:7px;background:#f2f5fb;margin:21px 0}
+.roadmap-page .ffp-participant-types{display:flex;align-items:center;gap:13px;font-size:16px;font-weight:550;color:#455e88}
+.roadmap-page .ffp-participant-types i{font-style:normal;font-size:14px;color:#899bbb}
+.roadmap-page .ffp-participation-label{font-size:10px;line-height:1.7;color:#8392aa}
+.roadmap-page .ffp-participation-model .ffp-role-tags{margin:0}
+.roadmap-page .ffp-expand-columns{margin-top:25px}
+.roadmap-page .ffp-expand-columns h3{font-size:14px}
+.roadmap-page .ffp-expand-columns p{font-size:11px;line-height:1.85;color:#77869d;margin-top:12px}
+.roadmap-page .ffp-plain-list{padding-left:17px;margin:14px 0 0;display:grid;gap:9px}
+.roadmap-page .ffp-plain-list li{font-size:11px;line-height:1.8;color:#6a7d98;padding-left:3px}
+.roadmap-page .ffp-adapter-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:15px}
+.roadmap-page .ffp-adapter-tags span{border:1px solid #dedaf0;border-radius:4px;padding:7px 10px;color:#746b99;background:#f6f3fb;font-size:10px;line-height:1.5}
+.roadmap-page .ffp-issuance-principle{padding:21px 24px;border-left:3px solid #849adb;background:#f0f4fb;border-radius:0 6px 6px 0;margin-top:23px}
+.roadmap-page .ffp-issuance-principle>span{font-size:8px;font-weight:600;letter-spacing:1.3px;color:#7d91b6}
+.roadmap-page .ffp-issuance-principle p{font-size:16px;line-height:1.9;color:#47638f;font-weight:550;margin-top:10px}
+.roadmap-page .ffp-issuance-principle i{font-style:normal;margin:0 10px;color:#95a7ca}
+.roadmap-page .ffp-issuance-principle small{display:block;font-size:10px;line-height:1.8;color:#7b8eac;margin-top:7px}
+.roadmap-page .ffp-protocol-model{padding:23px;border:1px solid #dfe5f1;border-radius:7px;background:#f3f6fc;text-align:center;margin-top:25px}
+.roadmap-page .ffp-protocol-model>.ffp-model-caption{color:#8792ad;margin-bottom:11px}
+.roadmap-page .ffp-protocol-model>strong{display:block;font-size:17px;font-weight:600;color:#45608b;padding:10px;border:1px solid #d5dff1;border-radius:6px;background:#e8eefb;max-width:440px;margin:0 auto 18px}
+.roadmap-page .ffp-protocol-projects{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:15px;max-width:690px;margin:auto}
+.roadmap-page .ffp-protocol-projects>div{background:#fff;border:1px solid #dbe3f1;border-radius:6px;padding:17px 13px;min-width:0}
+.roadmap-page .ffp-protocol-projects b{font-size:19px;font-weight:550;line-height:1.4;color:#6870b0}
+.roadmap-page .ffp-protocol-projects span{display:block;font-size:10px;line-height:1.7;color:#8491a8;margin-top:7px}
+.roadmap-page .ffp-protocol-model>p{font-size:10px;line-height:1.85;color:#8490a6;margin-top:16px}
+.roadmap-page .ffp-token-option{padding:26px 29px;background:#17243c;border:1px solid #35455f;border-radius:7px;margin-top:21px;color:#d3ddef}
+.roadmap-page .ffp-token-option .ffp-stage-status{color:#a5a0d6}
+.roadmap-page .ffp-token-option h3{font-size:23px;font-weight:550;color:#edf1ff;margin:10px 0 14px;letter-spacing:-.6px}
+.roadmap-page .ffp-token-option p{font-size:12px;color:#b5c2d8;line-height:1.9;max-width:850px}
+.roadmap-page .ffp-token-option .ffp-token-utilities{font-size:11px;color:#9cacc7;margin-top:14px}
+.roadmap-page .ffp-token-option small{display:block;font-size:10px;color:#95a3bf;line-height:1.8;margin-top:15px}
+.roadmap-page .ffp-long-term{margin-top:38px;padding:37px 38px;border:1px solid #354765;border-radius:10px;background:radial-gradient(ellipse at 95% 0,#413b6226,transparent 60%),var(--ffp-navy);color:#d9e3f4}
+.roadmap-page .ffp-long-term .ffp-kicker{color:#899fc5}
+.roadmap-page .ffp-long-term-condition{display:inline-block;padding:6px 9px;border:1px solid #6672a75c;border-radius:4px;color:#bbb7e7;font-size:8px;font-weight:600;line-height:1.7;letter-spacing:1px;margin-bottom:19px}
+.roadmap-page .ffp-long-term h2{font-size:38px;line-height:1.15;letter-spacing:-1.1px;color:#ecf1ff}
+.roadmap-page .ffp-long-term h2>span{color:#95aaff;font-size:30px;font-weight:550}
+.roadmap-page .ffp-long-term-intro{font-size:13px;line-height:1.95;color:#b0bfd7;max-width:880px;margin-top:23px}
+.roadmap-page .ffp-long-term .ffp-two-columns{margin-top:30px;gap:36px}
+.roadmap-page .ffp-long-term h3{font-size:14px;line-height:1.6;font-weight:550;color:#d6e1f7}
+.roadmap-page .ffp-long-term .ffp-plain-list{margin-top:13px}
+.roadmap-page .ffp-long-term .ffp-plain-list li{color:#a9bad4}
+.roadmap-page .ffp-chain-options{padding-left:27px;border-left:1px solid #364968}
+.roadmap-page .ffp-chain-options p{font-size:11px;line-height:1.95;color:#a9bad4;margin:12px 0 0}
+.roadmap-page .ffp-long-term-footnote{font-size:10px;line-height:1.9;color:#8fA3c4;border-top:1px solid #334561;padding-top:21px;margin-top:26px}
+
+@media(min-width:1101px) and (max-height:800px){
+  .overview-page{padding-top:20px}
+  .overview-page .ffp-overview-hero{padding:33px 40px;gap:38px}
+  .overview-page .ffp-hero-copy h1{font-size:60px}
+  .overview-page .ffp-positioning{font-size:15px;line-height:1.6;margin-top:18px}
+  .overview-page .ffp-hero-support{font-size:11px;line-height:1.8;margin-top:11px}
+  .overview-page .ffp-actions{margin-top:19px}
+  .overview-page .ffp-hero-footnote{margin-top:13px}
+  .overview-page .ffp-project-model{padding:18px 18px 14px}
+  .overview-page .ffp-model-caption{margin-bottom:11px}
+  .overview-page .ffp-model-root{padding:10px}
+  .overview-page .ffp-model-project{padding:15px 11px 10px}
+  .overview-page .ffp-model-project li{padding:6px 0}
+  .overview-page .ffp-model-participants{padding:11px 0 9px;margin-top:11px}
+  .overview-page .ffp-proof-strip{padding:18px 8px}
+}
+@media(max-width:1050px){
+  .overview-page .ffp-overview-hero{padding:32px;gap:25px;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr)}
+  .overview-page .ffp-hero-copy h1{font-size:50px;letter-spacing:-2px}
+  .overview-page .ffp-positioning{font-size:14px}
+  .overview-page .ffp-hero-support{font-size:11px}
+  .overview-page .ffp-actions{gap:10px}
+  .overview-page .ffp-project-model{padding:17px 14px}
+  .overview-page .ffp-model-project{padding:15px 9px 10px}
+  .overview-page .ffp-model-project h2{font-size:11px}
+  .overview-page .ffp-model-project li{font-size:8px}
+  .overview-page .ffp-four-steps>li{padding:23px 19px}
+  .overview-page .ffp-capability-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .overview-page .ffp-release-evidence{display:block}
+  .overview-page .ffp-release-evidence>a{margin-top:18px}
+  .roadmap-page .ffp-stage-ribbon li{padding:17px 15px}
+}
+@media(max-width:760px){
+  :is(.overview-page,.roadmap-page){padding-top:22px}
+  :is(.overview-page,.roadmap-page) .ffp-three-columns{grid-template-columns:1fr}
+  :is(.overview-page,.roadmap-page) h2{font-size:27px}
+  .overview-page .ffp-overview-hero{grid-template-columns:1fr;gap:30px;padding:29px}
+  .overview-page .ffp-hero-copy h1{font-size:55px;letter-spacing:-2.2px}
+  .overview-page .ffp-positioning{font-size:15px;max-width:600px}
+  .overview-page .ffp-hero-support{font-size:12px;max-width:600px}
+  .overview-page .ffp-project-model{padding:23px;max-width:600px;width:100%}
+  .overview-page .ffp-model-project h2{font-size:13px;min-height:0}
+  .overview-page .ffp-model-project li{font-size:10px}
+  .overview-page .ffp-model-note{font-size:10px}
+  .overview-page .ffp-proof-strip{padding:20px 3px;gap:20px}
+  .overview-page .ffp-proof-strip>div+div{padding-left:20px}
+  .overview-page .ffp-light-card{padding:23px}
+  .overview-page .ffp-four-steps{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .overview-page .ffp-four-steps>li{padding:24px}
+  .overview-page .ffp-four-steps>li:nth-child(3){border-left:0}
+  .overview-page .ffp-four-steps>li:nth-child(n+3){border-top:1px solid var(--ffp-border)}
+  .overview-page .ffp-principle-note{display:block}
+  .overview-page .ffp-principle-note span{display:block;margin-top:8px}
+  .overview-page .ffp-heading-with-link{display:block}
+  .overview-page .ffp-heading-with-link>a{margin-top:17px}
+  .overview-page .ffp-audience-card{padding:24px}
+  .roadmap-page .ffp-stage-ribbon{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .roadmap-page .ffp-stage-ribbon li:nth-child(4){border-left:0}
+  .roadmap-page .ffp-stage-ribbon li:nth-child(n+4){border-top:1px solid #32415a}
+  .roadmap-page .ffp-roadmap-stage{padding:26px}
+  .roadmap-page .ffp-stage-heading{gap:20px}
+  .roadmap-page .ffp-stage-marker{width:82px;padding-right:16px}
+  .roadmap-page .ffp-stage-heading h2{font-size:25px}
+  .roadmap-page .ffp-template-family{margin-top:0}
+  .roadmap-page .ffp-three-columns{margin-top:22px;gap:13px}
+  .roadmap-page .ffp-long-term{padding:31px}
+  .roadmap-page .ffp-long-term h2{font-size:35px}
+}
+@media(max-width:520px){
+  :is(.overview-page,.roadmap-page) .ffp-two-columns{grid-template-columns:1fr;gap:17px}
+  :is(.overview-page,.roadmap-page) .ffp-kicker{font-size:9px;letter-spacing:1.3px}
+  :is(.overview-page,.roadmap-page) .ffp-page-end{flex-direction:column;align-items:flex-start;gap:18px}
+  .overview-page .ffp-overview-hero{padding:24px 22px;border-radius:9px;gap:27px}
+  .overview-page .ffp-hero-copy h1{font-size:44px;letter-spacing:-1.8px}
+  .overview-page .ffp-positioning{font-size:14px;line-height:1.75;margin-top:20px}
+  .overview-page .ffp-hero-support{font-size:11px;line-height:1.9}
+  .overview-page .ffp-actions{gap:15px;margin-top:23px}
+  .overview-page .ffp-primary-link{font-size:12px;padding:12px 16px;gap:18px}
+  .overview-page .ffp-secondary-button{font-size:11px}
+  .overview-page .ffp-project-model{padding:18px 15px}
+  .overview-page .ffp-model-projects{gap:7px}
+  .overview-page .ffp-model-project{padding:13px 8px 8px}
+  .overview-page .ffp-model-project h2{font-size:11px;line-height:1.55}
+  .overview-page .ffp-model-project li{font-size:8px;line-height:1.75}
+  .overview-page .ffp-model-caption{font-size:7px;letter-spacing:.7px}
+  .overview-page .ffp-model-note{font-size:9px}
+  .overview-page .ffp-proof-strip{grid-template-columns:1fr;gap:16px;padding:21px 3px}
+  .overview-page .ffp-proof-strip>div+div{padding-left:0;padding-top:17px;border-left:0;border-top:1px solid var(--ffp-border)}
+  .overview-page .ffp-section{margin-top:38px}
+  .overview-page .ffp-section-heading>p:last-child,.overview-page .ffp-section-heading>div>p:last-child{font-size:12px}
+  .overview-page .ffp-capability-grid{grid-template-columns:1fr;gap:13px}
+  .overview-page .ffp-four-steps>li{padding:21px 17px}
+  .overview-page .ffp-four-steps h3{font-size:17px}
+  .overview-page .ffp-four-steps p{font-size:10px}
+  .overview-page .ffp-release-evidence{padding:21px}
+  .overview-page .ffp-deployment-details dl>div{grid-template-columns:1fr;gap:3px}
+  .overview-page .ffp-deployment-details code{font-size:9px}
+  .overview-page .ffp-audience-card h2{font-size:24px}
+  .roadmap-page .ffp-roadmap-intro{padding-top:5px}
+  .roadmap-page .ffp-roadmap-intro h1{font-size:37px;line-height:1.15;letter-spacing:-1.4px}
+  .roadmap-page .ffp-roadmap-intro>p:last-child{font-size:12px;line-height:1.9;margin-top:17px}
+  .roadmap-page .ffp-stage-ribbon li{padding:15px 13px}
+  .roadmap-page .ffp-stage-ribbon strong{font-size:10px;letter-spacing:.5px}
+  .roadmap-page .ffp-roadmap-stage{padding:22px 20px}
+  .roadmap-page .ffp-stage-heading{display:block}
+  .roadmap-page .ffp-stage-marker{width:auto;display:flex;align-items:center;gap:10px;padding:0;border-right:0;margin-bottom:14px}
+  .roadmap-page .ffp-stage-marker>span{margin:0}
+  .roadmap-page .ffp-stage-marker>strong{font-size:10px}
+  .roadmap-page .ffp-stage-heading h2{font-size:25px}
+  .roadmap-page .ffp-stage-status{font-size:7px;letter-spacing:.8px}
+  .roadmap-page .ffp-stage-intro{font-size:12px;margin-top:18px}
+  .roadmap-page .ffp-feature-list{grid-template-columns:1fr;gap:10px;margin-top:19px}
+  .roadmap-page .ffp-feature-list li{font-size:11px}
+  .roadmap-page .ffp-economic-loop{display:grid;grid-template-columns:1fr;padding:16px 18px;gap:7px}
+  .roadmap-page .ffp-economic-loop li+li:before{content:"↓";display:inline-block;width:13px;margin-right:10px}
+  .roadmap-page .ffp-economic-loop li:first-child{padding-left:23px}
+  .roadmap-page .ffp-stage-scope{grid-template-columns:1fr;gap:11px;margin-top:15px}
+  .roadmap-page .ffp-participation-model{padding:19px;gap:14px;align-items:flex-start;flex-direction:column}
+  .roadmap-page .ffp-issuance-principle{padding:20px}
+  .roadmap-page .ffp-issuance-principle p{font-size:14px;line-height:2}
+  .roadmap-page .ffp-issuance-principle i{margin:0 5px}
+  .roadmap-page .ffp-protocol-model{padding:19px 13px}
+  .roadmap-page .ffp-protocol-projects{gap:7px}
+  .roadmap-page .ffp-protocol-projects>div{padding:15px 6px}
+  .roadmap-page .ffp-protocol-projects b{font-size:16px}
+  .roadmap-page .ffp-protocol-projects span{font-size:8px}
+  .roadmap-page .ffp-token-option{padding:23px 21px}
+  .roadmap-page .ffp-token-option h3{font-size:21px;line-height:1.45}
+  .roadmap-page .ffp-long-term{padding:26px 23px;margin-top:31px}
+  .roadmap-page .ffp-long-term h2{font-size:33px}
+  .roadmap-page .ffp-long-term h2>span{font-size:26px}
+  .roadmap-page .ffp-long-term-intro{font-size:12px}
+  .roadmap-page .ffp-long-term .ffp-two-columns{gap:24px}
+  .roadmap-page .ffp-chain-options{border-left:0;border-top:1px solid #364968;padding:22px 0 0}
+}
+@media(prefers-reduced-motion:reduce){:is(.overview-page,.roadmap-page) .ffp-primary-link{transition:none}}

@@ -1,3 +1,5 @@
+import { overviewView, roadmapView } from './presentation';
+
 type JsonObject = Record<string, unknown>;
 type Entity = JsonObject & { id?: string | number; status?: string; uri?: string };
 type Project = Entity & {
@@ -18,6 +20,7 @@ interface State {
   presentation?: { mode?: string; capturedAt?: string };
 }
 type Tab = 'projects' | 'contributions' | 'funds';
+type Destination = 'overview' | 'projects' | 'project' | 'roadmap' | 'not-found';
 type InputSpec = { key: string; label: string; type?: 'text' | 'number' | 'json' | 'role' | 'actorType'; placeholder?: string; optional?: boolean; help?: string };
 interface ActionSpec { label: string; help: string; fields: InputSpec[] }
 
@@ -59,6 +62,7 @@ if (!app) throw new Error('Missing application root');
 const recordedMode = document.documentElement.dataset.fairflowMode === 'recorded-demo';
 let state: State | null = null;
 let tab: Tab = 'projects';
+let destination: Destination = 'overview';
 let selectedProject = '';
 let capability = '';
 let busy = false;
@@ -104,7 +108,7 @@ function statusBadge(status: unknown): string {
 function empty(message: string): string { return `<div class="empty"><div class="empty-symbol">◇</div>${esc(message)}</div>`; }
 function button(action: string, label?: string, defaults: JsonObject = {}, style = 'small', eligible = true): string { return recordedMode ? '' : `<button class="button ${style}" data-action="${esc(action)}" data-defaults="${esc(JSON.stringify(defaults))}" ${busy || !capability || !eligible ? 'disabled' : ''}>${esc(label ?? actionSpecs[action]?.label ?? action)}</button>`; }
 function details(value: unknown, title = 'View raw record'): string { return `<details class="detail"><summary>${esc(title)}</summary><pre>${esc(json(value))}</pre></details>`; }
-function project(): Project | undefined { return state?.projects?.find((p) => String(p.id) === selectedProject) ?? state?.projects?.[0]; }
+function project(): Project | undefined { return state?.projects?.find((p) => String(p.id) === selectedProject); }
 
 async function request(path: string, body?: unknown): Promise<JsonObject> {
   if (recordedMode && body !== undefined) throw new Error('This recorded demo is read-only. No transactions can be submitted.');
@@ -121,7 +125,7 @@ async function refresh(): Promise<void> {
     const data = await request(recordedMode ? './demo-state.json' : '/api/state');
     state = data as State;
     if (state.agent) state.agents = { session: state.agent.session ? { ...state.agent.session, nonce: state.agent.nonce, spent: state.agent.spent } : undefined, runs: state.agent.runs };
-    if (!state.projects?.some((p) => String(p.id) === selectedProject)) selectedProject = String(state.projects?.[0]?.id ?? '');
+    if (destination !== 'project' && !state.projects?.some((p) => String(p.id) === selectedProject)) selectedProject = String(state.projects?.[0]?.id ?? '');
     lastRefresh = new Date().toLocaleTimeString('en-US', { hour12: false });
   } catch (error) { loadError = error instanceof Error ? error.message : String(error); }
   loading = false; render();
@@ -133,16 +137,53 @@ function toast(message: string, error = false): void {
   toastTimer = setTimeout(() => element.remove(), 8500);
 }
 
+function projectHref(p: Project, step = 'define'): string { return `#project/${encodeURIComponent(String(p.id))}/${step}`; }
+function readRoute(): void {
+  const hash = window.location.hash.replace(/^#/, '');
+  if (!hash || hash === 'overview') { destination = 'overview'; return; }
+  if (hash === 'projects' || hash === 'roadmap') { destination = hash; return; }
+  const match = /^project\/([^/]+)\/(define|recognize|settle)$/.exec(hash);
+  if (match) {
+    try { selectedProject = decodeURIComponent(match[1]!); } catch { destination = 'not-found'; return; }
+    destination = 'project'; tab = ({ define: 'projects', recognize: 'contributions', settle: 'funds' } as const)[match[2] as 'define' | 'recognize' | 'settle']; return;
+  }
+  destination = 'not-found';
+}
+function openWorkflow(next: Tab): void {
+  const current = project(); if (!current) return;
+  const step = ({ projects: 'define', contributions: 'recognize', funds: 'settle' } as const)[next];
+  window.location.hash = projectHref(current, step);
+}
+function projectHierarchy(p: Project): string {
+  return `<div class="project-hierarchy"><div class="breadcrumb"><a href="#projects">Projects</a><span>/</span><strong>${esc(p.name ?? `Project ${p.id}`)}</strong></div><a class="all-projects" href="#projects">← All projects</a></div><div class="project-toolbar"><div class="workspace-context"><label for="project-select" class="context-label">PROJECT</label><select id="project-select" class="project-select" aria-label="Select project">${(state?.projects ?? []).map((item) => `<option value="${esc(item.id)}" ${String(item.id) === String(p.id) ? 'selected' : ''}>${esc(item.name ?? `Project ${item.id}`)}</option>`).join('')}</select><span class="context-note">${recordedMode ? 'Recorded ledger' : 'Local ledger'}</span></div><nav class="workflow-nav" aria-label="Selected project workflow">${(['projects', 'contributions', 'funds'] as Tab[]).map((item, index) => `<button class="nav-button ${tab === item ? 'active' : ''}" data-tab="${item}" aria-current="${tab === item ? 'step' : 'false'}"><span class="nav-number">0${index + 1}</span>${['Define work', 'Recognize work', 'Settle & burn'][index]}</button>`).join('')}</nav></div>`;
+}
+function projectsView(): string {
+  const projects = state?.projects ?? [];
+  return `<section class="projects-page"><div class="projects-intro"><div><div class="eyebrow">FAIRFLOW / PROJECTS</div><h1>A shared layer.<br><span>Independent projects.</span></h1><p>Each FairFlow project has its own contribution rules, recognition history, token accounting and service economics.</p></div><div class="projects-count"><strong>${projects.length}</strong><span>${recordedMode ? 'recorded' : 'local'} project instances</span></div></div><p class="projects-disclosure">${recordedMode ? `Recorded local state · captured ${esc(time(state?.presentation?.capturedAt))}. These figures are not live Arbitrum Sepolia activity.` : 'Current disposable local state on chain 31337. Public-chain deployment evidence is separate.'}</p><div class="project-cards">${projects.map((p, index) => {
+    const contributions = list(p.contributions); const recognized = contributions.filter((item) => item.status === 'FINALIZED').length;
+    const orders = list(p.orders); const settled = orders.filter((item) => item.status === 'SETTLED');
+    const serviceTotal = settled.reduce((sum, order) => sum + numeric(order.price), 0n);
+    return `<article class="project-card"><div class="project-card-top"><span class="project-card-number">0${index + 1}</span><span class="badge ${recognized > 0 ? 'green' : ''}">${recognized > 0 ? 'Work recognized' : 'No recognized work'}</span></div><h2>${esc(p.name ?? `Project ${p.id}`)}</h2><p class="project-card-description">${recognized > 0 ? 'Contribution recognition and paid evaluation, in one project economy.' : 'An isolated instance with its own rules and unchanged zero balances.'}</p><dl class="project-card-metrics"><div><dt>Recognized credits</dt><dd>${esc(quantity(p.credits, 'credit'))}</dd></div><div><dt>Total FT issued</dt><dd>${esc(quantity(p.grossIssued, 'token'))}</dd></div><div><dt>Active FT supply</dt><dd>${esc(quantity(p.totalSupply, 'token'))}</dd></div><div><dt>Recognized contributions</dt><dd>${recognized}<small> / ${contributions.length} recorded</small></dd></div></dl><div class="project-card-service"><span>Service settlement</span><strong>${settled.length} settled ${settled.length === 1 ? 'order' : 'orders'} · ${esc(quantity(serviceTotal.toString(), 'cash'))} ${esc(units('cash'))}</strong><small>${orders.length === 0 ? 'No service orders in this ledger.' : `${orders.length} order${orders.length === 1 ? '' : 's'} in this ledger; refundable funds are separate from settled revenue.`}</small></div><div class="project-card-footer"><span>Project-specific FT · Rule v${esc(p.policyVersion)}</span><a class="button primary" href="${esc(projectHref(p))}">Open project <span>→</span></a></div></article>`;
+  }).join('')}</div>${projects.length === 0 ? empty(loading ? 'Reading project instances…' : 'No project records are available.') : ''}<div class="projects-principle"><span>ONE PLATFORM · SEPARATE ECONOMIES</span><p>Credits, issuance, receipts and service funds stay with their project. Activity in one ledger does not create progress in another.</p></div></section>`;
+}
 function render(): void {
   const current = project();
-  app!.innerHTML = `<div class="shell"><header class="app-header"><a class="brand" href="#" aria-label="FairFlow home" data-home><span class="brand-symbol"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M5 5h18v5H10v4h10v5H10v5H5z" fill="currentColor"/></svg></span>FairFlow<span class="brand-sub">CONTRIBUTION & SETTLEMENT</span></a><nav class="nav" aria-label="Workspace navigation">${(['projects', 'contributions', 'funds'] as Tab[]).map((item, index) => `<button class="nav-button ${tab === item ? 'active' : ''}" data-tab="${item}" aria-current="${tab === item ? 'page' : 'false'}"><span class="nav-number">0${index + 1}</span>${['Define work', 'Recognize work', 'Settle & burn'][index]}</button>`).join('')}</nav><div class="header-tools">${environmentDisclosure()}<button class="icon-button" id="refresh" aria-label="${recordedMode ? 'Reload recorded snapshot' : 'Refresh local chain state'}" title="${recordedMode ? 'Reload snapshot' : 'Refresh chain state'}" ${loading ? 'disabled' : ''}><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16 8a6 6 0 1 0 .2 4M16 3v5h-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></header><main class="main">
+  const activeTop = destination === 'project' ? 'projects' : destination;
+  let content: string;
+  if (destination === 'overview') content = overviewView({ recorded: recordedMode, projectNames: (state?.projects ?? []).map((p) => text(p.name, `Project ${p.id}`)), capturedAt: state?.presentation?.capturedAt });
+  else if (destination === 'roadmap') content = roadmapView();
+  else if (destination === 'projects') content = state ? projectsView() : `<section class="loading-stage"><h1>Projects</h1>${empty(loading ? 'Reading project instances…' : 'Project data is unavailable. Please reload the snapshot.')}<a href="#overview">← Overview</a></section>`;
+  else if (destination === 'project' && state && current) content = `${projectHierarchy(current)}${tab === 'projects' ? projectView(current) : tab === 'contributions' ? contributionView(current) : fundsView(current)}`;
+  else if (destination === 'project' && !state) content = `<section class="loading-stage"><h1>Project workflow</h1>${empty(loading ? 'Reading project data…' : 'Project data is unavailable. Please reload the snapshot.')}<a href="#projects">← All projects</a></section>`;
+  else content = `<section class="loading-stage"><div class="eyebrow">FAIRFLOW</div><h1>${destination === 'project' ? 'Project not found.' : 'Page not found.'}</h1><p>This address does not identify an available page or project.</p><a class="button primary" href="#projects">Explore projects →</a></section>`;
+  document.title = `${destination === 'project' && current ? text(current.name) : destination === 'overview' ? 'Overview' : destination === 'roadmap' ? 'Roadmap' : destination === 'projects' ? 'Projects' : 'Page not found'} · FairFlow`;
+  app!.innerHTML = `<div class="shell"><header class="app-header site-header"><a class="brand" href="#overview" aria-label="FairFlow home"><span class="brand-symbol"><svg viewBox="0 0 28 28" aria-hidden="true"><path d="M5 5h18v5H10v4h10v5H10v5H5z" fill="currentColor"/></svg></span>FairFlow<span class="brand-sub">CONTRIBUTION & SETTLEMENT</span></a><nav class="site-nav" aria-label="FairFlow navigation">${(['overview', 'projects', 'roadmap'] as const).map((item) => `<a class="site-nav-button ${activeTop === item ? 'active' : ''}" href="#${item}" aria-current="${activeTop === item ? 'page' : 'false'}">${item.charAt(0).toUpperCase() + item.slice(1)}</a>`).join('')}</nav><div class="header-tools">${environmentDisclosure()}<button class="icon-button" id="refresh" aria-label="${recordedMode ? 'Reload recorded snapshot' : 'Refresh local chain state'}" title="${recordedMode ? 'Reload snapshot' : 'Refresh chain state'}" ${loading ? 'disabled' : ''}><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16 8a6 6 0 1 0 .2 4M16 3v5h-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div></header><main class="main">
     ${loadError ? `<div class="notice error" role="alert"><strong>Unable to read state.</strong> ${esc(loadError)} ${state ? 'The last read is retained; current state has not been reverified.' : 'Please retry when the data source is available.'}</div>` : ''}
-    ${state && current ? `<div class="workspace-context"><span class="context-label">PROJECT</span><select id="project-select" class="project-select" aria-label="Select project">${(state.projects ?? []).map((p) => `<option value="${esc(p.id)}" ${String(p.id) === String(current.id) ? 'selected' : ''}>${esc(p.name ?? `Project ${p.id}`)}</option>`).join('')}</select><span class="context-divider"></span><span class="context-note">${recordedMode ? `Snapshot captured ${esc(time(state.presentation?.capturedAt))}` : 'Local ledger · reads from the chain'}${loading ? ' · refreshing' : ''}</span></div>${tab === 'projects' ? projectView(current) : tab === 'contributions' ? contributionView(current) : fundsView(current)}` : `<section class="loading-stage"><div class="eyebrow">FAIRFLOW</div><h1>Make contribution count.</h1><p>A shared record of AI project work, rewards and service settlement.</p>${empty(loading ? 'Reading project data…' : 'No project data is available yet.')}</section>`}
-    <footer class="footer"><span>Candidate demo economics. No investment, redemption or return promise.</span><span>${recordedMode ? 'Read-only recorded local demo' : `${lastRefresh ? `Last read ${esc(lastRefresh)}` : 'Not read yet'} · Local prototype`}</span></footer></main></div>`;
+    ${content}<footer class="footer"><span>Hackathon prototype · Candidate economics. No investment, redemption or return promise.</span><span>${recordedMode ? `Read-only recorded local demo · ${esc(time(state?.presentation?.capturedAt))}` : `${lastRefresh ? `Last read ${esc(lastRefresh)}` : 'Not read yet'} · Local prototype`}</span></footer></main></div>`;
   bind();
 }
 function environmentDisclosure(): string {
-  return `<details class="environment-detail"><summary><span class="environment-dot"></span>${recordedMode ? 'Recorded local demo' : 'Local prototype'}<span class="disclosure-chevron">⌄</span></summary><div class="environment-content"><strong>${recordedMode ? 'A captured demonstration, not a live public deployment.' : 'A disposable local test environment.'}</strong><p>${recordedMode ? `Read-only snapshot captured ${esc(time(state?.presentation?.capturedAt))}. No wallet connection, signatures or transactions are available. ` : 'Actions use controlled, disposable local accounts on chain 31337. '}LocalCash, contributions, orders and liquidity are test data. Buyback uses a local Mock DEX, not an official public DEX.</p><p>The reviewer is controlled by the demo team. The 60-second review delay is not independent review or decentralized arbitration. A digest proves content integrity, not factual truth.</p><p>No public-network deployment, real liquidity, independent demand, production readiness or returns are implied. The demo issuance curve has no artificial total cap; burn never resets issuance progress.</p>${recordedMode ? '' : `<div class="permission-chip">${capability ? 'Local owner controls available' : 'Read-only session'}</div>`}</div></details>`;
+  return `<details class="environment-detail"><summary><span class="environment-dot"></span>${recordedMode ? 'Recorded local demo' : 'Local prototype'}<span class="disclosure-chevron">⌄</span></summary><div class="environment-content"><strong>${recordedMode ? 'A recorded local workflow; public deployment evidence is separate.' : 'A disposable local test environment.'}</strong><p>${recordedMode ? `Read-only snapshot captured ${esc(time(state?.presentation?.capturedAt))}. No wallet connection, signatures or transactions are available. ` : 'Actions use controlled, disposable local accounts on chain 31337. '}LocalCash, contributions, orders and liquidity are test data. Buyback uses a local Mock DEX, not an official public DEX.</p><p>The reviewer is controlled by the demo team. The 60-second review delay is not independent review or decentralized arbitration. A digest proves content integrity, not factual truth.</p><p>Arbitrum Sepolia contracts are deployed separately from this local workflow. No real liquidity, independent demand, production readiness or returns are implied. The demo issuance curve has no artificial total cap; burn never resets issuance progress.</p>${recordedMode ? '' : `<div class="permission-chip">${capability ? 'Local owner controls available' : 'Read-only session'}</div>`}</div></details>`;
 }
 function allocationSplit(): { operations: string; buyback: string } {
   const bps = state?.config?.buybackBps;
@@ -253,10 +294,10 @@ function fillAgentTemplate(orderId?: string): void {
 
 function bind(): void {
   document.querySelector<HTMLButtonElement>('#refresh')?.addEventListener('click', () => { void refresh(); });
-  document.querySelectorAll<HTMLButtonElement>('[data-tab]').forEach((element) => element.addEventListener('click', () => { tab = element.dataset.tab as Tab; render(); }));
-  document.querySelector<HTMLSelectElement>('#project-select')?.addEventListener('change', (event) => { selectedProject = (event.target as HTMLSelectElement).value; render(); });
+  document.querySelectorAll<HTMLButtonElement>('[data-tab]').forEach((element) => element.addEventListener('click', () => { openWorkflow(element.dataset.tab as Tab); }));
+  document.querySelector<HTMLSelectElement>('#project-select')?.addEventListener('change', (event) => { const id = (event.target as HTMLSelectElement).value; const next = state?.projects?.find((p) => String(p.id) === id); if (next) window.location.hash = projectHref(next, ({ projects: 'define', contributions: 'recognize', funds: 'settle' } as const)[tab]); });
   document.querySelector<HTMLButtonElement>('#agent-template')?.addEventListener('click', () => fillAgentTemplate());
-  document.querySelector('[data-home]')?.addEventListener('click', (event) => { event.preventDefault(); tab = 'projects'; render(); });
+  document.querySelector('[data-how-it-works]')?.addEventListener('click', () => document.querySelector('#how-fairflow-works')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
   document.querySelectorAll<HTMLButtonElement>('[data-agent-accept]').forEach((element) => element.addEventListener('click', () => {
     const controls = document.querySelector<HTMLDetailsElement>('.agent-controls'); if (controls) controls.open = true;
     const method = document.querySelector<HTMLSelectElement>('#agent-method'); if (method) method.value = 'accept';
@@ -327,8 +368,10 @@ function fieldHtml(field: InputSpec, value: unknown): string {
   return `<div class="field"><label for="${id}">${esc(field.label)}${field.optional ? ' (optional)' : ''}</label>${control}${field.help ? `<small>${esc(field.help)}</small>` : ''}</div>`;
 }
 
+window.addEventListener('hashchange', () => { readRoute(); render(); window.scrollTo({ top: 0, behavior: 'instant' }); });
+
 async function start(): Promise<void> {
-  render();
+  readRoute(); render();
   if (!recordedMode) {
     try { const session = await request('/api/local-session'); capability = typeof session.capability === 'string' ? session.capability : ''; }
     catch (error) { toast(`Local write authorization unavailable: ${error instanceof Error ? error.message : String(error)}`, true); }

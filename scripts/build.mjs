@@ -27,7 +27,8 @@ export async function frontend(){
   if(!fs.existsSync('frontend/main.ts'))return;
   fs.mkdirSync('dist/web',{recursive:true});
   await build({entryPoints:['frontend/main.ts'],bundle:true,outfile:'dist/web/app.js',target:'es2022',minify:false});
-  for(const file of ['index.html','styles.css'])fs.copyFileSync(`frontend/${file}`,`dist/web/${file}`);
+  fs.copyFileSync('frontend/index.html','dist/web/index.html');
+  fs.writeFileSync('dist/web/styles.css',fs.readFileSync('frontend/styles.css','utf8')+'\n'+fs.readFileSync('frontend/presentation.css','utf8'));
   console.log('Frontend bundled');
 }
 if(process.argv[1]?.endsWith('build.mjs')){await compile();await frontend();}
