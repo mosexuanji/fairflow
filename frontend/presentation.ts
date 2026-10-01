@@ -113,7 +113,7 @@ export function roadmapView(): string {
     <header class="ffp-roadmap-intro"><p class="ffp-kicker">FAIRFLOW / ROADMAP</p><h1>From project economies<br>to shared infrastructure.</h1><p>Capability stages, with implemented proof separated from planned product direction and exploratory protocol options. No dated delivery commitments.</p></header>
     <ol class="ffp-stage-ribbon" aria-label="Capability stages">${([
       ['NOW', 'Project economies'], ['NEXT', 'Factory & templates'], ['EXPAND', 'Humans + agents'],
-      ['SCALE', 'Shared validation'], ['PROTOCOL', 'Covenant layer'], ['LONG TERM', 'FairFlow Chain'],
+      ['SCALE', 'Shared validation'], ['PROTOCOL', 'Protocol layer'], ['LONG TERM', 'FairFlow Chain'],
     ] as const).map(([stage, title], index) => `<li><span>0${index + 1}</span><strong>${stage}</strong><small>${escapeHtml(title)}</small></li>`).join('')}</ol>
 
     <section class="ffp-roadmap-stage ffp-stage-current" aria-labelledby="roadmap-now-title">
@@ -151,7 +151,7 @@ export function roadmapView(): string {
     </section>
 
     <section class="ffp-roadmap-stage" aria-labelledby="roadmap-protocol-title">
-      ${stageHeading('05', 'PROTOCOL', 'EXPLORATORY SHARED INFRASTRUCTURE', 'FairFlow / Covenant Layer', 'roadmap-protocol-title')}
+      ${stageHeading('05', 'PROTOCOL', 'EXPLORATORY SHARED INFRASTRUCTURE', 'FairFlow Protocol Layer', 'roadmap-protocol-title')}
       <p class="ffp-stage-intro">Reusable contribution infrastructure + shared validation + independent project economies.</p>
       <ul class="ffp-feature-list"><li>Contribution standards and shared validators</li><li>Shared security and common infrastructure</li><li>Protocol governance and treasury / fees</li><li>Ecosystem incentives and shared protocol economics</li></ul>
       <div class="ffp-protocol-model"><span class="ffp-model-caption">CONCEPTUAL FUTURE MODEL</span><strong>FairFlow Protocol</strong><div class="ffp-protocol-projects"><div><b>AFT</b><span>Project A economy</span></div><div><b>BFT</b><span>Project B economy</span></div><div><b>CFT</b><span>Project C economy</span></div></div><p>Project tokens remain project-specific. These generic projects illustrate a future model, not additional current instances.</p></div>
