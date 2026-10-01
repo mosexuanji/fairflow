@@ -1,5 +1,0 @@
-packages: ['.']
-allowBuilds:
-  esbuild: true
-overrides:
-  'solc>tmp': '0.2.7'
