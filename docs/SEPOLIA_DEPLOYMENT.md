@@ -1,16 +1,37 @@
-# Arbitrum Sepolia deployment preparation
+# Arbitrum Sepolia deployment and verification
 
-**PREPARED_NOT_DEPLOYED — operational snapshot 2026-10-01 06:40 UTC. No Owner deployment transaction has been signed or broadcast, and no deployed contract address exists.** A distinct controlled reviewer has been configured privately and a free official-platform faucet delivered 0.00151 test ETH. Owner authorized exactly project deployment and policy-v1 publication on chain421614, each with value0 and cumulative gas fees at most0.02 test ETH. This plan preserves the FairFlow0.1.0 core; official USDG acquisition, tasks/orders, pools, liquidity and swaps are outside this execution scope. The public default configuration deliberately keeps account fields null; private wallet, approval and runtime records are excluded from the release.
+Public source: [GitHub](https://github.com/mosexuanji/fairflow). Recorded demo: [FairFlow Pages](https://mosexuanji.github.io/fairflow/). The Pages demo is a read-only snapshot of the controlled local chain 31337 run. The confirmed testnet deployment below is separate from that recorded demo.
+
+**CONFIRMED — Arbitrum Sepolia (chain 421614), verified 2026-10-01 at 07:25 UTC.** Exactly two zero-value transactions deployed FairFlowProject with its internal FFT token and Receipt, then published policy v1. Both receipts are confirmed; all 91 initial-state read-only smoke checks passed at block 314563918.
+
+| Contract | Confirmed address / explorer |
+|---|---|
+| FairFlowProject | [0xB1822256929b8a60CEf6e7840F63bf8D479AeCb8](https://sepolia.arbiscan.io/address/0xB1822256929b8a60CEf6e7840F63bf8D479AeCb8) |
+| FFT (ProjectToken) | [0xC8fdaB63102303806b49945D4171ca04f3528C60](https://sepolia.arbiscan.io/address/0xC8fdaB63102303806b49945D4171ca04f3528C60) |
+| Receipt | [0xCc8dED8e01a373D38032887698a5E9A3791F7f0B](https://sepolia.arbiscan.io/address/0xCc8dED8e01a373D38032887698a5E9A3791F7f0B) |
+
+| Transaction | Confirmed hash / explorer | Block | Gas used | Actual fee (wei) |
+|---|---|---:|---:|---:|
+| Project deployment, including FFT and Receipt | [0x443104bad12006825b9069e37f2ba8d22ff8210d7d924b510f7e0da40b78fd3e](https://sepolia.arbiscan.io/tx/0x443104bad12006825b9069e37f2ba8d22ff8210d7d924b510f7e0da40b78fd3e) | 314563718 | 5256991 | 172166455250000 |
+| Publish policy v1 | [0x45c44817e30e38a35814fb5a55b18858103be867a4c02915bb524468910d8749](https://sepolia.arbiscan.io/tx/0x45c44817e30e38a35814fb5a55b18858103be867a4c02915bb524468910d8749) | 314563867 | 600779 | 19427991302000 |
+
+Total observed gas was **5,857,770** and total fee was **191594446552000 wei (0.000191594446552 test ETH)**. The smoke checks matched runtime code, immutable issuers, configured roles and parameters, policy v1, exact transaction calldata/creation, and zero initial recognized credits, gross issuance, token supply/burn, task/contribution/order counts and accounting buckets. The observed USDG cash balance was 0. No contribution, service, cash transfer, DEX, pool or swap was executed in this testnet deployment.
+
+**Historical preparation snapshot — 2026-10-01 at 06:40 UTC:** the two-transaction plan was prepared and had not yet been deployed. The confirmed results above supersede that status. The FairFlow 0.1.0 core is unchanged; public default account fields remain null, and private wallet, approval and runtime records are excluded from the release.
+
+The procedures below document preparation and verification for a separately approved plan; they are not an instruction to repeat this completed deployment. Preserve its original execution/consumption records. Policy URNs commit to inline configuration bytes; public metadata availability is separate. Runtime code/getters and explorer links do not establish explorer source verification or an external security audit. Controlled distinct role addresses do not establish independent review or decentralized arbitration.
 
 ## Network and wallet
 
-| Field | Exact expected value |
+The role-account fields below describe the reusable public default configuration, which deliberately contains no private selected account addresses. Confirmed deployed contracts are listed above.
+
+| Field | Public default / required value |
 |---|---|
 | Network | Arbitrum Sepolia testnet |
 | Chain ID | `421614` (`0x66eee`) |
 | Read-only RPC | `https://sepolia-rollup.arbitrum.io/rpc` |
 | Explorer | `https://sepolia.arbiscan.io` |
-| Gas asset | Test ETH / SepoliaETH, never purchased real ETH |
+| Gas asset | Test ETH (ETH), never purchased real ETH |
 | Deployer | A new dedicated Owner-selected public-testnet account; address currently `null` |
 | Reviewer | A distinct Owner-selected controlled testnet address; currently `null` |
 | Service provider | Owner-selected controlled testnet address; currently `null` |
@@ -123,7 +144,7 @@ The historical read-only record `config/sepolia-preflight.json` observed gasPric
 
 ## Address and explorer template
 
-`config/sepolia-plan.json` retains the following fields as `null` until actual confirmed deployment; known USDG is only a pre-existing official asset reference:
+The actual confirmed deployment addresses and transaction links are listed at the top of this document. The reusable public default `config/sepolia-plan.json` keeps the following fields `null`; this is a configuration template, not the status of the completed deployment. Known USDG is only a pre-existing official asset reference:
 
 | New deployment field | Current value |
 |---|---|
@@ -151,10 +172,10 @@ This reads the public chain and prints checks. It sends no transaction. The exac
 4. Recognized credits, gross issuance, totalSupply, totalBurned, task/contribution/order counts, revenue and every accounting bucket start at0; token/Receipt immutable issuers equal project.
 5. Adapter, keeper and buyback price/budget configuration remain zero; no DEX or pool is implied. Actual cash balance is reported independently, because anyone can donate tokens and that is not service revenue.
 
-This initial-state smoke must precede any later demo transactions. It will correctly fail initial-zero checks after activity; use separate later-flow evidence rather than weakening those checks. The local run presently proves constructor/argument shape and the read checks only. It does not prove official-asset transfer behavior, faucet availability, public service settlement, live liquidity, autonomous hosted Agent operation, independent review or production readiness.
+This initial-state smoke must precede any later demo transactions. It will correctly fail initial-zero checks after activity; use separate later-flow evidence rather than weakening those checks. The separate local run proved constructor/argument shape; the confirmed chain 421614 deployment additionally passed the 91 initial-state public read checks summarized above. These checks do not prove official-asset transfer behavior, public service settlement, live liquidity, autonomous hosted Agent operation, independent review or production readiness.
 
 ## Ready and remaining
 
 Ready: unchanged deployable core artifacts; exact two-transaction plan and committed arguments; default offline/read-only behavior; execution-bound connector checks; one-attempt plan consumption; controlled-role configuration; zero-address/explorer template; separate local gas simulation and smoke; **5/5 deployment tests PASS**. The added offline test contains ten scoped regressions for connector binding/loading, exact scope, cumulative cap, duplicate/uncertain/reverted outcomes, and mandatory smoke-record evidence. Its durable result is `docs/submission/DEPLOYMENT_SAFETY_TESTS.json`; the provider and unsigned method stubs simulate421614 without connecting to that network or creating a wallet/signature. The separate31337 constructor/policy test is actual disposable local-chain evidence. Neither proves a real hardware/browser connector or public deployment.
 
-Remaining deployment actions: verify the actual injected approved wallet on421614, check fresh balance and fees, obtain exactly the two reviewed transaction confirmations, resolve their original receipts and run the read-only smoke checks. Authorization and free test gas are already recorded privately; actual deployment is still pending. Public source/Pages publication and external access verification are separate authorized work. Official USDG acquisition and public settlement are outside this scope; final HackQuest Submit and factual funding/eligibility confirmation remain Owner actions.
+Completed deployment scope: exactly the two confirmed zero-value transactions and 91 initial-state read-only checks listed above. Public source and the recorded Pages demo are published at the links above; anonymous browser access and exact hosted assets were verified on 2026-10-01 at 06:53 UTC. The Pages walkthrough continues to display the original local-chain metrics, not testnet contribution/service results. Official USDG acquisition, public settlement, DEX/pool/swap activity, metadata hosting and explorer source verification have not been established by this deployment. Any further onchain action requires its own authorization; final HackQuest Submit and factual funding/eligibility confirmation remain Owner actions.

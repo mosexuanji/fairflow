@@ -70,10 +70,15 @@ durable local transaction journal. Local checks cover contribution accounting,
 escrow/refunds, permissions, Agent grant limits, burn and cold recovery; they are
 engineering tests, not an external audit.
 
-**Arbitrum Sepolia is the submission deployment target.** Public contract
-addresses, repository and hosted-demo URLs are pending approved execution and
-will be added only after verification. The current local walkthrough is not
-public Arbitrum deployment evidence or official USDG/DEX activity.
+**Arbitrum Sepolia initial deployment is confirmed.** Public source:
+[GitHub](https://github.com/mosexuanji/fairflow). Recorded demo:
+[FairFlow Pages](https://mosexuanji.github.io/fairflow/). The hosted demo presents
+a read-only snapshot of the controlled local chain 31337 walkthrough, including
+the local metrics above. The separate testnet project and policy-v1 deployment
+passed 91 initial-state read checks on 2026-10-01. Confirmed project:
+[0xB1822256929b8a60CEf6e7840F63bf8D479AeCb8](https://sepolia.arbiscan.io/address/0xB1822256929b8a60CEf6e7840F63bf8D479AeCb8).
+See [contracts and transactions](docs/SEPOLIA_DEPLOYMENT.md). Those checks do not
+demonstrate public contribution/service settlement or official USDG/DEX activity.
 
 ## Trust and economic limits
 
