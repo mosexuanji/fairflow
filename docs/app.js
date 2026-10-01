@@ -116,7 +116,7 @@
       ["NEXT", "Factory & templates"],
       ["EXPAND", "Humans + agents"],
       ["SCALE", "Shared validation"],
-      ["PROTOCOL", "Covenant layer"],
+      ["PROTOCOL", "Protocol layer"],
       ["LONG TERM", "FairFlow Chain"]
     ].map(([stage, title], index) => `<li><span>0${index + 1}</span><strong>${stage}</strong><small>${escapeHtml(title)}</small></li>`).join("")}</ol>
 
@@ -155,7 +155,7 @@
     </section>
 
     <section class="ffp-roadmap-stage" aria-labelledby="roadmap-protocol-title">
-      ${stageHeading("05", "PROTOCOL", "EXPLORATORY SHARED INFRASTRUCTURE", "FairFlow / Covenant Layer", "roadmap-protocol-title")}
+      ${stageHeading("05", "PROTOCOL", "EXPLORATORY SHARED INFRASTRUCTURE", "FairFlow Protocol Layer", "roadmap-protocol-title")}
       <p class="ffp-stage-intro">Reusable contribution infrastructure + shared validation + independent project economies.</p>
       <ul class="ffp-feature-list"><li>Contribution standards and shared validators</li><li>Shared security and common infrastructure</li><li>Protocol governance and treasury / fees</li><li>Ecosystem incentives and shared protocol economics</li></ul>
       <div class="ffp-protocol-model"><span class="ffp-model-caption">CONCEPTUAL FUTURE MODEL</span><strong>FairFlow Protocol</strong><div class="ffp-protocol-projects"><div><b>AFT</b><span>Project A economy</span></div><div><b>BFT</b><span>Project B economy</span></div><div><b>CFT</b><span>Project C economy</span></div></div><p>Project tokens remain project-specific. These generic projects illustrate a future model, not additional current instances.</p></div>
@@ -366,7 +366,7 @@
     window.location.hash = projectHref(current, step);
   }
   function projectHierarchy(p) {
-    return `<div class="project-hierarchy"><div class="breadcrumb"><a href="#projects">Projects</a><span>/</span><strong>${esc(p.name ?? `Project ${p.id}`)}</strong></div><a class="all-projects" href="#projects">\u2190 All projects</a></div><div class="project-toolbar"><div class="workspace-context"><label for="project-select" class="context-label">PROJECT</label><select id="project-select" class="project-select" aria-label="Select project">${(state?.projects ?? []).map((item) => `<option value="${esc(item.id)}" ${String(item.id) === String(p.id) ? "selected" : ""}>${esc(item.name ?? `Project ${item.id}`)}</option>`).join("")}</select><span class="context-note">${recordedMode ? "Recorded ledger" : "Local ledger"}</span></div><nav class="workflow-nav" aria-label="Selected project workflow">${["projects", "contributions", "funds"].map((item, index) => `<button class="nav-button ${tab === item ? "active" : ""}" data-tab="${item}" aria-current="${tab === item ? "step" : "false"}"><span class="nav-number">0${index + 1}</span>${["Define work", "Recognize work", "Settle & burn"][index]}</button>`).join("")}</nav></div>`;
+    return `<div class="project-hierarchy"><div class="breadcrumb"><a href="#projects">Projects</a><span>/</span><strong>${esc(p.name ?? `Project ${p.id}`)}</strong></div><a class="all-projects" href="#projects">\u2190 All projects</a></div><div class="project-toolbar"><div class="workspace-context"><label for="project-select" class="context-label">PROJECT</label><select id="project-select" class="project-select" aria-label="Select project">${(state?.projects ?? []).map((item) => `<option value="${esc(item.id)}" ${String(item.id) === String(p.id) ? "selected" : ""}>${esc(item.name ?? `Project ${item.id}`)}</option>`).join("")}</select><span class="context-note">${recordedMode ? "Recorded local ledger" : "Local ledger"}</span></div><nav class="workflow-nav" aria-label="Selected project workflow">${["projects", "contributions", "funds"].map((item, index) => `<button class="nav-button ${tab === item ? "active" : ""}" data-tab="${item}" aria-current="${tab === item ? "step" : "false"}"><span class="nav-number">0${index + 1}</span>${["Define work", "Recognize work", "Settle & burn"][index]}</button>`).join("")}</nav></div>`;
   }
   function projectsView() {
     const projects = state?.projects ?? [];
@@ -396,7 +396,7 @@
     bind();
   }
   function environmentDisclosure() {
-    return `<details class="environment-detail"><summary><span class="environment-dot"></span>${recordedMode ? "Recorded local demo" : "Local prototype"}<span class="disclosure-chevron">\u2304</span></summary><div class="environment-content"><strong>${recordedMode ? "A recorded local workflow; public deployment evidence is separate." : "A disposable local test environment."}</strong><p>${recordedMode ? `Read-only snapshot captured ${esc(time(state?.presentation?.capturedAt))}. No wallet connection, signatures or transactions are available. ` : "Actions use controlled, disposable local accounts on chain 31337. "}LocalCash, contributions, orders and liquidity are test data. Buyback uses a local Mock DEX, not an official public DEX.</p><p>The reviewer is controlled by the demo team. The 60-second review delay is not independent review or decentralized arbitration. A digest proves content integrity, not factual truth.</p><p>Arbitrum Sepolia contracts are deployed separately from this local workflow. No real liquidity, independent demand, production readiness or returns are implied. The demo issuance curve has no artificial total cap; burn never resets issuance progress.</p>${recordedMode ? "" : `<div class="permission-chip">${capability ? "Local owner controls available" : "Read-only session"}</div>`}</div></details>`;
+    return `<details class="environment-detail"><summary><span class="environment-dot"></span>${recordedMode ? "Recorded demo" : "Local prototype"}<span class="disclosure-chevron">\u2304</span></summary><div class="environment-content"><strong>${recordedMode ? "A recorded local workflow; public deployment evidence is separate." : "A disposable local test environment."}</strong><p>${recordedMode ? `Read-only snapshot captured ${esc(time(state?.presentation?.capturedAt))}. No wallet connection, signatures or transactions are available. ` : "Actions use controlled, disposable local accounts on chain 31337. "}LocalCash, contributions, orders and liquidity are test data. Buyback uses a local Mock DEX, not an official public DEX.</p><p>The reviewer is controlled by the demo team. The 60-second review delay is not independent review or decentralized arbitration. A digest proves content integrity, not factual truth.</p><p>Arbitrum Sepolia contracts are deployed separately from this local workflow. No real liquidity, independent demand, production readiness or returns are implied. The demo issuance curve has no artificial total cap; burn never resets issuance progress.</p>${recordedMode ? "" : `<div class="permission-chip">${capability ? "Local owner controls available" : "Read-only session"}</div>`}</div></details>`;
   }
   function allocationSplit() {
     const bps = state?.config?.buybackBps;
